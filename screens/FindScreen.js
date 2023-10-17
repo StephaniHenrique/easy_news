@@ -46,29 +46,60 @@ export default function FindScreen() {
     setLoading(false);
   }
 
+      
+  const categories = ['Noticias', 'Artigos', 'Sei lá'];
+  const bgColors = ['rgba(91, 47, 189, 0.2)', 'rgba(139, 81, 205, 0.2)', 'rgba(180, 110, 220, 0.2)'];
+  const colors = ['#5B2FBD', '#8B51CD', '#B46EDC'];
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
+
+  const CategoryList = () =>{
+    return (
+     <View style={styles.categoryListContainer}>
+       {categories.map((item, index) => (
+         <TouchableOpacity
+         style={{...styles.cardOption, backgroundColor:bgColors[index]}}
+           key={index}
+           activeOpacity={0.8}
+           onPress={() => setSelectedCategoryIndex(index)}>
+           <View>
+             <Text
+               style={{
+                 ...styles.categoryListText, color: colors[index]}}>
+               {item}
+             </Text>
+           </View>
+         </TouchableOpacity>
+       ))}
+     </View>
+   );
+  }
+  
+    
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={StyleSheet.container}>
-      <View style={styles.searchInputContainer} >
-          <Icon name="search" size={25} style={{marginLeft:15}}/>
-          <TextInput placeholder="Search" style={{fontSize:20, paddingLeft: 10}}/>
-        </View>
-        <FlatList
-        style={{ marginTop: 35, marginBottom: 80}}
-        contentContainerStyle={{marginHorizontal:20}}
-        data={data}
-        keyExtractor={item => String(item.id)}
-        renderItem={({item}) => <ListItem data={item}/>}
-        onEndReached={loadApi}
-        onEndReachedThreshold={0.1}
-        ListFooterComponent={<FooterList load={loading}/>}
-        />
+        <View style={styles.searchInputContainer} >
+            <Icon name="search" size={25} style={{marginLeft:15}}/>
+            <TextInput placeholder="Search" style={{fontSize:20, paddingLeft: 10}}/>
+          </View>
+          
+        <CategoryList/>
+          <FlatList
+          style={{ marginTop: 35, marginBottom: 280}}
+          contentContainerStyle={{marginHorizontal:20}}
+          data={data}
+          keyExtractor={item => String(item.id)}
+          renderItem={({item}) => <ListItem data={item}/>}
+          onEndReached={loadApi}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={<FooterList load={loading}/>}
+          />
       </View>
     </SafeAreaView>
   )
 }
-
 
 function ListItem({data}){
   return(
@@ -76,7 +107,7 @@ function ListItem({data}){
     <View style={{...styles.card}}>
       <View style={{...styles.cardOverLay}} />
 
-      <Image source={require('../assets/images/arte.jpg')} style={styles.cardImage} />
+      <Image source={require('../assets/images/noticias.jpg')} style={styles.cardImage} />
       <View style={styles.cardDetails}>
         <View
           style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -116,7 +147,7 @@ function FooterList({load}){
 
   return(
     <View style={styles.loading}>
-      <ActivityIndicator size={20} color={'#121212'}/>
+      <ActivityIndicator size={20} color={themeColors.bg_2}/>
     </View>
   )
 }
@@ -128,10 +159,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  cardOption:{
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    width:'100%',
+    flex:1,
+    backgroundColor:themeColors.grey
+  },
+  categoryListContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 10,
+    marginHorizontal: 20,
+    marginTop: 30,
+    width:'87%',
+  },
+  categoryListText: {
+    fontSize: 14,
+    color: '#fff',
+    textAlign:'center',
+    fontWeight: 'bold',
+  },
   searchInputContainer: {
     height: 50,
     backgroundColor: themeColors.grey2,
-    marginTop: 60,
+    marginTop: 70,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 30,
@@ -139,13 +192,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    marginBottom:40,
-    height: 280,
+    marginBottom:20,
+    height: 310,
     width: cardWidth,
-    elevation: 15,
     marginRight: 20,
     borderRadius: 15,
     backgroundColor: themeColors.bg_light,
+    borderWidth: 2, // largura da borda em pixels
+    borderColor: themeColors.grey2, 
   },
   cardImage: {
     height: 200,
@@ -163,16 +217,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
 
-  listItem:{
-    backgroundColor:'#121212',
-    padding:25, 
-    marginTop: 20,
-    borderRadius: 10,
-  },
-  listText:{
-    fontSize: 16,
-    color:'#fff',
-  },
   loading:{
     padding:10,
   }

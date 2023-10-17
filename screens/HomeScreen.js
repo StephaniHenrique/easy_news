@@ -21,7 +21,7 @@ import hotels from '../assets/dados'
 
 const {width} = Dimensions.get('screen');
 const imgWidth = width - 40;
-const cardWidth = width / 1.8;
+const cardWidth = width / 1.7;
 
 const style = StyleSheet.create({
   header: {
