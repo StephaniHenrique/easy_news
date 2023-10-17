@@ -13,7 +13,7 @@ export default function LoginScreen() {
     colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
     start={{ x: 1, y: 0 }}
     end={{ x: 0, y: 0 }}>
-    <View className="flex-1 bg-white">
+    <View className="flex-1">
         
       <SafeAreaView  className="flex ">
        
@@ -54,6 +54,7 @@ export default function LoginScreen() {
                   end={{ x: 0, y: 0 }}>
                 <Text 
                     className="text-xl font-bold text-center" style={{color:themeColors.bg_light}}
+                    onPress={()=> navigation.navigate('Tab')}
                 >
                         Login
                 </Text>

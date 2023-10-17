@@ -14,7 +14,7 @@ export default function SignUpScreen() {
     colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
     start={{ x: 1, y: 0 }}
     end={{ x: 0, y: 0 }}>
-    <View className="flex-1 bg-white" style={{backgroundColor: themeColors.bg}}>
+    <View className="flex-1" >
       <SafeAreaView className="flex">
        
         <View className="flex-row justify-center" style={{height: 70, alignItems: 'flex-end'}}>
