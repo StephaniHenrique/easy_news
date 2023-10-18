@@ -53,7 +53,7 @@ export default function LoginScreen() {
                   start={{ x: 1, y: 0 }}
                   end={{ x: 0, y: 0 }}>
                 <Text 
-                    className="text-xl font-bold text-center" style={{color:themeColors.bg_light}}
+                    className="text-xl font-bold text-center" style={{color:themeColors.bg}}
                     onPress={()=> navigation.navigate('Tab')}
                 >
                         Login

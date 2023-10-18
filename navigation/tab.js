@@ -1,23 +1,22 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; // Importe o pacote de ícones que você está usando
+import { View, TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons'; 
 
 import HomeScreen from '../screens/HomeScreen';
 import FindScreen from '../screens/FindScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostScreen from '../screens/PostScreen';
 import ConfigScreen from '../screens/ConfigScreen';
-import { themeColors } from "../theme";
+import { useTheme } from "../theme/ThemeProvider";
 
 const Tab = createBottomTabNavigator();
 
-const CustomTabBarButton = ({children, onPress}) =>(
+const CustomTabBarButton = ({children, onPress, buttonColor}) =>(
     <TouchableOpacity
         style={{
             top: -30,
-            justifyContent: 'center',
-            ...styles.shadow
+            justifyContent: 'center'
         }}
         onPress={onPress}
     >
@@ -25,7 +24,7 @@ const CustomTabBarButton = ({children, onPress}) =>(
             width: 50,
             height: 50,
             borderRadius: 35,
-            backgroundColor: themeColors.bg_2,
+            backgroundColor: buttonColor,
         }}>
             {children}
         </View>
@@ -33,6 +32,8 @@ const CustomTabBarButton = ({children, onPress}) =>(
 );
 
 const Tabs = () => {
+    const {colors} = useTheme();
+
     return(
         <Tab.Navigator
         screenOptions={{
@@ -44,48 +45,47 @@ const Tabs = () => {
               left: 0,
               right: 0,
               elevation: 0,
-              backgroundColor: '#fff',
+              backgroundColor: colors.bg_secondary,
               borderTopLeftRadius: 15,
               borderTopRightRadius: 15,
               height: 60,
-              ...styles.shadow
             },
           }}>
             <Tab.Screen name="Home" component={HomeScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Ionicons name={'home-outline'} size={20} color={focused?themeColors.bg_2 : themeColors.grey} />
+                        <Ionicons name={'home-outline'} size={20} color={focused?colors.purple : colors.grey} />
                     </View>
                 )
             }}/>            
             <Tab.Screen name="Find" component={FindScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Ionicons name={'search-outline'} size={20} color={focused?themeColors.bg_2 : themeColors.grey} />
+                        <Ionicons name={'search-outline'} size={20} color={focused?colors.purple : colors.grey} />
                     </View>
                 )
             }}/>            
             <Tab.Screen name="Post" component={PostScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Ionicons name={'add-outline'} size={25} color={'#fff'} />
+                        <Ionicons name={'add-outline'} size={25} color={colors.text_contrast} />
                     </View>
                     ),
                 tabBarButton: (props) => (
-                    <CustomTabBarButton {...props}/>
+                    <CustomTabBarButton {...props} buttonColor={colors.purple}/>
                 )
             }}/>            
             <Tab.Screen name="Profile" component={ProfileScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Ionicons name={'person-outline'} size={20} color={focused?themeColors.bg_2 : themeColors.grey} />
+                        <Ionicons name={'person-outline'} size={20} color={focused?colors.purple : colors.grey} />
                     </View>
                 )
             }}/>            
             <Tab.Screen name="Config" component={ConfigScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Ionicons name={'settings-outline'} size={20} color={focused?themeColors.bg_2 : themeColors.grey} />
+                        <Ionicons name={'settings-outline'} size={20} color={focused?colors.purple : colors.grey} />
                     </View>
                 )
             }}/>
@@ -93,18 +93,5 @@ const Tabs = () => {
     )
 }
 
-const styles = StyleSheet.create({
-    shadow: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 40,
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        elevation: 5,
-      },
-  });
-  
 
 export default Tabs;

@@ -18,7 +18,7 @@ export default function SignUpScreen() {
       <SafeAreaView className="flex">
        
         <View className="flex-row justify-center" style={{height: 70, alignItems: 'flex-end'}}>
-            <Text style={{color:themeColors.bg_light, fontFamily:'sans-serif', fontSize:25, fontWeight: 800, marginBottom: 10}}>EASY NEWS</Text>
+            <Text style={{color:themeColors.bg, fontFamily:'sans-serif', fontSize:25, fontWeight: 800, marginBottom: 10}}>EASY NEWS</Text>
         </View>
       </SafeAreaView>
       <View className="flex-1 bg-white px-8 pt-8"
@@ -54,7 +54,7 @@ export default function SignUpScreen() {
     colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
     start={{ x: 1, y: 0 }}
     end={{ x: 0, y: 0 }}>
-                <Text className="font-xl font-bold text-center" style={{color:themeColors.bg_light}}>
+                <Text className="font-xl font-bold text-center" style={{color:themeColors.bg}}>
                     Sign Up
                 </Text>
                 </LinearGradient>

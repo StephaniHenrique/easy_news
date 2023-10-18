@@ -1,8 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import AppNavigation from './navigation/appNavigation';
-import Tabs from './navigation/tab';
+import { ThemeProvider } from './theme/ThemeProvider';
 
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,8 +11,8 @@ import Tabs from './navigation/tab';
 
 export default function App() {
   return (
-  
+    <ThemeProvider>
       <AppNavigation/>
-
+    </ThemeProvider>
   );
 }
