@@ -87,7 +87,7 @@ export default function FindScreen() {
           
         <CategoryList/>
           <FlatList
-          style={{ marginTop: 35, marginBottom: 280}}
+          style={{ marginTop: 35, marginBottom: 260}}
           contentContainerStyle={{marginHorizontal:20}}
           data={data}
           keyExtractor={item => String(item.id)}
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   searchInputContainer: {
     height: 50,
     backgroundColor: themeColors.grey2,
-    marginTop: 70,
+    marginTop: 60,
     marginLeft: 20,
     marginRight: 20,
     borderRadius: 30,

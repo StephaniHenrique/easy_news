@@ -7,6 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import FindScreen from '../screens/FindScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostScreen from '../screens/PostScreen';
+import ConfigScreen from '../screens/ConfigScreen';
 import { themeColors } from "../theme";
 
 const Tab = createBottomTabNavigator();
@@ -81,7 +82,7 @@ const Tabs = () => {
                     </View>
                 )
             }}/>            
-            <Tab.Screen name="Config" component={ProfileScreen} options={{
+            <Tab.Screen name="Config" component={ConfigScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <View style={{alignItems: 'center', justifyContent: 'center'}}>
                         <Ionicons name={'settings-outline'} size={20} color={focused?themeColors.bg_2 : themeColors.grey} />
