@@ -92,7 +92,7 @@ const DetailScreen = ({ navigation, route }) => {
           barStyle="light-content"
           translucent
         />
-        <ImageBackground style={style.headerImage} source={item.image}>
+        <ImageBackground style={style.headerImage} source={{ uri: item.urlToImage }} >
           <View style={style.header}>
             <Icon
               name="arrow-back-ios"
@@ -107,7 +107,7 @@ const DetailScreen = ({ navigation, route }) => {
             <Icon name="favorite-border" color={'#fff'} size={24} />
           </View>
           <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.text_main }}>{item.name}</Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.text_main }}>{item.title}</Text>
             <Text
               style={{
                 fontSize: 12,
@@ -115,7 +115,7 @@ const DetailScreen = ({ navigation, route }) => {
                 color: colors.grey,
                 marginTop: 5,
               }}>
-              {item.location}
+              {item.content}
             </Text>
             <View
               style={{

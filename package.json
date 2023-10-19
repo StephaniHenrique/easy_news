@@ -17,6 +17,7 @@
     "expo-linear-gradient": "^12.1.2",
     "expo-status-bar": "~1.4.4",
     "nativewind": "^2.0.11",
+    "newsapi": "^2.4.1",
     "react": "18.2.0",
     "react-icons": "^4.11.0",
     "react-native": "^0.71.13",

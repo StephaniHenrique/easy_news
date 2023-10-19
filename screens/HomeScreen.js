@@ -11,18 +11,43 @@ import {
   Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-
+import axios from "axios";
 import { themeColors } from '../theme'
 import { useTheme } from '../theme/ThemeProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import hotels from '../assets/dados'
+import { useState, useEffect } from 'react';
 
 const { width } = Dimensions.get('screen');
 const imgWidth = width - 40;
 const cardWidth = width / 1.7;
 
 export default function HomeScreen() {
+
+  const [articles,setArticles] = useState([]);
+    const getNews = () => {
+        axios.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=22eae92dba794c89b68f6c2989ae3c87',{
+            params:{
+             
+            }
+        })
+            .then( (response) =>{
+                // handle success
+                setArticles(response.data.articles);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            .then(function () {
+                // always executed
+            });
+    }
+
+    useEffect(() => {
+        getNews();
+    },[]);
   const categories = ['Popular', 'Recomendado'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
@@ -130,7 +155,7 @@ export default function HomeScreen() {
     );
   }
 
-  const Card = ({ hotel, index }) => {
+  const Card = ({article, index }) => {
     const inputRange = [
       (index - 1) * cardWidth,
       index * cardWidth,
@@ -148,21 +173,21 @@ export default function HomeScreen() {
       <TouchableOpacity
         disabled={activeCardIndex != index}
         activeOpacity={1}
-        onPress={() => navigation.navigate('Detail', hotel)}>
+        onPress={() => navigation.navigate('Detail', article)}>
         <Animated.View style={{ ...style.card, transform: [{ scale }] }}>
           <Animated.View style={{ ...style.cardOverLay, opacity }} />
 
-          <Image source={hotel.image} style={style.cardImage} />
+          <Image source={{ uri: article.urlToImage }} style={style.cardImage} />
           <View style={style.cardDetails}>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <View>
-                <Text style={{ fontWeight: 'bold', fontSize: 17, color: colors.text_main }}>
-                  {hotel.name}
+                <Text style={{ fontWeight: 'bold', fontSize: 14, color: colors.text_main }}>
+                  {article.title}
                 </Text>
-                <Text style={{ color: colors.grey, fontSize: 12 }}>
-                  {hotel.location}
-                </Text>
+                {/* <Text style={{ color: colors.grey, fontSize: 10 }}>
+                  {article.description}
+                </Text> */}
               </View>
               <Icon name="favorite-border" size={22} color={colors.purple} />
             </View>
@@ -187,15 +212,15 @@ export default function HomeScreen() {
     );
   };
 
-  const TopHotelCard = ({ hotel }) => {
+  const TopHotelCard = ({ article }) => {
     return (
       <View style={style.topHotelCard}>
-        <Image style={style.topHotelCardImage} source={hotel.image} />
+        <Image style={style.topHotelCardImage}  source={{ uri: article.urlToImage }} />
         <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 10, fontWeight: 'bold', color: colors.text_main }}>{hotel.name}</Text>
-          <Text style={{ fontSize: 7, fontWeight: 'bold', color: colors.grey }}>
-            {hotel.location}
-          </Text>
+          <Text style={{ fontSize: 6, fontWeight: 'bold', color: colors.text_main }}>{article.title}</Text>
+          {/* <Text style={{ fontSize: 7, fontWeight: 'bold', color: colors.grey }}>
+            {article.description}
+          </Text> */}
         </View>
       </View>
     );
@@ -233,14 +258,14 @@ export default function HomeScreen() {
               { useNativeDriver: true },
             )}
             horizontal
-            data={hotels}
+            data={articles}
             contentContainerStyle={{
               paddingVertical: 30,
               paddingLeft: 20,
               paddingRight: cardWidth / 2 - 40,
             }}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => <Card hotel={item} index={index} />}
+            renderItem={({ item, index }) => <Card article={item} index={index} />}
             snapToInterval={cardWidth}
           />
         </View>
@@ -256,7 +281,7 @@ export default function HomeScreen() {
           <Text style={{ color: colors.grey }}>Show all</Text>
         </View>
         <FlatList
-          data={hotels}
+          data={articles}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
@@ -264,7 +289,7 @@ export default function HomeScreen() {
             marginTop: 20,
             paddingBottom: 30,
           }}
-          renderItem={({ item }) => <TopHotelCard hotel={item} />}
+          renderItem={({ item }) => <TopHotelCard article={item} />}
         />
         <View style={{ height: 65 }}></View>
       </ScrollView>
