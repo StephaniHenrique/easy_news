@@ -25,29 +25,19 @@ const cardWidth = width / 1.7;
 
 export default function HomeScreen() {
 
-  const [articles,setArticles] = useState([]);
-    const getNews = () => {
-        axios.get('https://newsapi.org/v2/top-headlines?country=us&apiKey=22eae92dba794c89b68f6c2989ae3c87',{
-            params:{
-             
-            }
-        })
-            .then( (response) =>{
-                // handle success
-                setArticles(response.data.articles);
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function () {
-                // always executed
-            });
-    }
+  const [articles, setArticles] = useState([]);
+  async function getNews() {
+    const response = await fetch(
+      'https://newsdata.io/api/1/news?apikey=pub_314863835828fecb905c17f3c4e3d8e9556b5&language=pt&full_content=1&image=1'
+    );
+    const data = await response.json();
+    const results = data.results;
+    setArticles(results);
+  }
 
-    useEffect(() => {
-        getNews();
-    },[]);
+  useEffect(() => {
+    getNews();
+  }, []);
   const categories = ['Popular', 'Recomendado'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
@@ -155,7 +145,7 @@ export default function HomeScreen() {
     );
   }
 
-  const Card = ({article, index }) => {
+  const Card = ({ article, index }) => {
     const inputRange = [
       (index - 1) * cardWidth,
       index * cardWidth,
@@ -177,7 +167,7 @@ export default function HomeScreen() {
         <Animated.View style={{ ...style.card, transform: [{ scale }] }}>
           <Animated.View style={{ ...style.cardOverLay, opacity }} />
 
-          <Image source={{ uri: article.urlToImage }} style={style.cardImage} />
+          <Image source={{ uri: article.image_url }} style={style.cardImage} />
           <View style={style.cardDetails}>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -215,7 +205,7 @@ export default function HomeScreen() {
   const TopHotelCard = ({ article }) => {
     return (
       <View style={style.topHotelCard}>
-        <Image style={style.topHotelCardImage}  source={{ uri: article.urlToImage }} />
+        <Image style={style.topHotelCardImage} source={{ uri: article.image_url }} />
         <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
           <Text style={{ fontSize: 6, fontWeight: 'bold', color: colors.text_main }}>{article.title}</Text>
           {/* <Text style={{ fontSize: 7, fontWeight: 'bold', color: colors.grey }}>
@@ -239,7 +229,7 @@ export default function HomeScreen() {
             </Text>
           </View>
         </View>
-        <Icon name='favorite' marginTop={5} size={30} color={colors.grey}   onPress={() => navigation.navigate('Favorite')}/>
+        <Icon name='favorite' marginTop={5} size={30} color={colors.grey} onPress={() => navigation.navigate('Favorite')} />
       </View>
       <ScrollView showVerticalScrollIndicator={false}>
 

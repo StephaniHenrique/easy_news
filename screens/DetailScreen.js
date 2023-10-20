@@ -92,7 +92,7 @@ const DetailScreen = ({ navigation, route }) => {
           barStyle="light-content"
           translucent
         />
-        <ImageBackground style={style.headerImage} source={{ uri: item.urlToImage }} >
+        <ImageBackground style={style.headerImage} source={{ uri: item.image_url }} >
           <View style={style.header}>
             <Icon
               name="arrow-back-ios"
