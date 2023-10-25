@@ -1,18 +1,12 @@
 import AppNavigation from './navigation/appNavigation';
 import { ThemeProvider } from './theme/ThemeProvider';
 
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import HomeScreen from './screens/HomeScreen';
-// import GameStore from './screens/gameStore';
-
-// const Tab = createBottomTabNavigator();
-
+import "react-native-gesture-handler";
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AppNavigation/>
-    </ThemeProvider>
+      <ThemeProvider>
+        <AppNavigation />
+      </ThemeProvider>
   );
 }

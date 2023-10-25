@@ -1,21 +1,33 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { themeColors } from '../theme'
-import { useNavigation } from '@react-navigation/native'
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Button, Text } from 'react-native'
+import React, { useRef } from 'react'
+import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { StatusBar } from 'expo-status-bar'
 
 
 
 export default function PostScreen() {
-    const navigation = useNavigation();
+  const BottomSheetModalRef = useRef(null);
+  const snapPoints = ["25%", "48%", "75%"];
 
+  function handlePresentModal() {
+    BottomSheetModalRef.current?.present();
+  }
   return (
-    <LinearGradient 
-    colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-    start={{ x: 1, y: 0 }}
-    end={{ x: 0, y: 0 }}>
-        
-</LinearGradient>
+    <BottomSheetModalProvider>
+      <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '50%', flex: 1, marginTop: 20 }}>
+        <Button title="teste" onPress={handlePresentModal} />
+        <StatusBar style='auto' />
+        <BottomSheetModal
+          ref={BottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          backgroundStyle={{ borderRadius: 20 }}
+        >
+          <View>
+            <Text>Oi tudo ebeeem</Text>
+          </View>
+        </BottomSheetModal>
+      </View>
+    </BottomSheetModalProvider>
   )
 }

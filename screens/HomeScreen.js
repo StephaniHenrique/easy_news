@@ -214,7 +214,7 @@ export default function HomeScreen() {
             </Text>
           </View>
         </View>
-        <Icon name='favorite' marginTop={5} size={30} color={colors.grey}   onPress={() => navigation.navigate('Favorite')}/>
+        <Icon name='favorite' marginTop={5} size={30} color={colors.grey} onPress={() => navigation.navigate('Favorite')} />
       </View>
       <ScrollView showVerticalScrollIndicator={false}>
 
