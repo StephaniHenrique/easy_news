@@ -105,7 +105,7 @@ const FavoriteScreen = ({ navigation }) => {
                     <Image source={require('../assets/images/noticias.jpg')} style={styles.cardImage} />
                     <View style={styles.cardDetails}>
                         <View
-                            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width:195 }}>
+                            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 195 }}>
                             <View>
                                 <Text style={{ fontWeight: 'bold', fontSize: 17, color: colors.text_main }}>
                                     {hotel.name}
@@ -141,7 +141,7 @@ const FavoriteScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <View style={{ display: 'flex', flexDirection:'row', alignItems:'center', gap:20 }}>
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20 }}>
                     <Icon
                         name="arrow-back-ios"
                         size={20}
