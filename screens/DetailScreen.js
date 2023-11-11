@@ -38,7 +38,7 @@ const DetailScreen = ({ navigation, route }) => {
   useEffect(() => {
     const fetchData = async () => {
       const prompt = `
-        Reescrevs a notícia para torná-la mais acessível a uma pessoa com as seguintes características de leitura:
+        Reescreva a notícia para torná-la mais acessível a uma pessoa com as seguintes características de leitura:
 
         1. Idade: 20 anos
         2. Estado: Pernambuco
