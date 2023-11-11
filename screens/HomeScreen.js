@@ -15,9 +15,10 @@ import axios from "axios";
 import { themeColors } from '../theme'
 import { useTheme } from '../theme/ThemeProvider';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
 import hotels from '../assets/dados'
 import { useState, useEffect } from 'react';
+import { generateText } from '../GPTAPI/GPTAPI';
+
 
 const { width } = Dimensions.get('screen');
 const imgWidth = width - 40;
@@ -25,18 +26,24 @@ const cardWidth = width / 1.7;
 
 export default function HomeScreen() {
 
+  
+
   const [articles, setArticles] = useState([]);
+
   async function getNews() {
     const response = await fetch(
-      'https://newsdata.io/api/1/news?apikey=pub_314863835828fecb905c17f3c4e3d8e9556b5&language=pt&full_content=1&image=1'
+      'https://newsdata.io/api/1/news?apikey=pub_314863835828fecb905c17f3c4e3d8e9556b5&language=pt&full_content=1&image=1&category=politics,world,science'
     );
     const data = await response.json();
     const results = data.results;
-    setArticles(results);
+    setArticles(results); 
   }
 
+
+ 
   useEffect(() => {
     getNews();
+
   }, []);
   const categories = ['Popular', 'Recomendado'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
@@ -145,7 +152,7 @@ export default function HomeScreen() {
     );
   }
 
-  const Card = ({ article, index }) => {
+  const Card = ({ article, index, promptedText }) => {
     const inputRange = [
       (index - 1) * cardWidth,
       index * cardWidth,
@@ -194,7 +201,7 @@ export default function HomeScreen() {
                 <Icon name="star" size={15} color={colors.yellow} />
                 <Icon name="star" size={15} color={colors.grey} />
               </View>
-              <Text style={{ fontSize: 10, color: colors.grey }}>365 coments</Text>
+              <Text style={{ fontSize: 10, color: colors.grey }}>{article.source_id}</Text>
             </View>
           </View>
         </Animated.View>
@@ -255,7 +262,7 @@ export default function HomeScreen() {
               paddingRight: cardWidth / 2 - 40,
             }}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => <Card article={item} index={index} />}
+            renderItem={ ({ item, index }) => <Card article={item} index={index}/>}
             snapToInterval={cardWidth}
           />
         </View>
