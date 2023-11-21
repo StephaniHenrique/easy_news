@@ -31,6 +31,7 @@ export default function FindScreen() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [focused, setFocused] = useState(false);
 
   useEffect(() => {
     loadApi();
@@ -54,7 +55,6 @@ export default function FindScreen() {
   const bgColors = [colors.purple_03, colors.purple_pink_03, colors.pink_03];
   const colorsRainbow = [colors.purple, colors.purple_pink, colors.pink];
 
-
   const styles = {
     cardOption: {
       paddingHorizontal: 20,
@@ -69,7 +69,7 @@ export default function FindScreen() {
       justifyContent: 'space-between',
       gap: 10,
       marginHorizontal: 20,
-      marginTop: 30,
+      marginTop: 15,
       width: '87%',
     },
     categoryListText: {
@@ -77,16 +77,6 @@ export default function FindScreen() {
       color: '#fff',
       textAlign: 'center',
       fontWeight: 'bold',
-    },
-    searchInputContainer: {
-      height: 50,
-      backgroundColor: colors.grey2,
-      marginTop: 60,
-      marginLeft: 20,
-      marginRight: 20,
-      borderRadius: 30,
-      flexDirection: 'row',
-      alignItems: 'center',
     },
     card: {
       marginBottom: 20,
@@ -196,10 +186,29 @@ export default function FindScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg}}>
       <View style={{backgroundColor:colors.bg}}>
-        <View style={styles.searchInputContainer} >
-          <Icon name="search" size={25} style={{ marginLeft: 15, color: colors.text_main }} />
-          <TextInput placeholder="Search" style={{ fontSize: 20, paddingLeft: 10, color: colors.text_main }} placeholderTextColor={colors.text_secondary}/>
-        </View>
+        <TextInput
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              placeholderTextColor={colors.grey}
+              style={[
+                {
+                  padding: 15,
+                  backgroundColor: colors.bg_secondary,
+                  borderRadius: 10,
+                  marginVertical: 10,
+                  elevation: 2,
+                  color:colors.text_main,
+                  marginTop: 60,
+                  marginLeft: 20,
+                  marginRight: 20,
+                },
+                focused && {
+                  borderWidth: 1.2,
+                  borderColor: colors.purple_pink,
+                },
+              ]}
+              placeholder='🔍 Search'
+            />
 
         <CategoryList />
         <FlatList

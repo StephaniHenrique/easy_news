@@ -13,6 +13,7 @@ import { themeColors } from '../theme'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeProvider';
+import AppInputText from "../components/AppTextInput"
 
 const DetailScreen = ({ navigation, route }) => {
   const item = route.params;
@@ -188,12 +189,8 @@ const DetailScreen = ({ navigation, route }) => {
         <View style={{ width: 35, height: 35, backgroundColor: '#000', borderRadius: 100, overflow: 'hidden' }}>
           <Image source={require("../assets/profile-pic.jpg")} resizeMode="center"></Image>
         </View>
-        <TextInput
-          className="p-4 text-gray-700 rounded-2xl"
-          placeholder="Comente"
-          placeholderTextColor={colors.text_secondary}
-          style={{ width: '75%', height: 50, backgroundColor: colors.bg_ter }}
-        />
+        <AppInputText placeholder="Comente" customStyles={{width: '75%', height: 50, backgroundColor: colors.bg_ter}}/>
+       
         <Ionicons name={'send-outline'} size={20} color={colors.grey} />
       </View>
     </SafeAreaView>

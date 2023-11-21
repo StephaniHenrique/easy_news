@@ -1,12 +1,18 @@
-import React from 'react'
-import { Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState } from 'react'
+import { Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, Animated, Modal } from "react-native";
 import { useTheme } from '../theme/ThemeProvider';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { themeColors } from '../theme';
+
+import AppTextInput from "../components/AppTextInput";
+import { useNavigation } from '@react-navigation/native'
 
 export default function ProfileScreen() {
     const { colors } = useTheme();
+    const navigation = useNavigation();
+
+    const [visible, setVisible] = React.useState(false);
 
 
     const styles = {
@@ -31,6 +37,19 @@ export default function ProfileScreen() {
             borderWidth: 3,
             marginTop: -45,
             backgroundColor: '#fff'
+        },
+        profileImageEdit: {
+            width: 100,
+            height: 100,
+            borderRadius: 100,
+            overflow: "hidden",
+            borderColor: colors.purple_pink,
+            borderWidth: 3,
+            backgroundColor: '#fff',
+            marginBottom: 10,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
         },
         premium: {
             width: 30,
@@ -103,11 +122,102 @@ export default function ProfileScreen() {
             borderRadius: 6,
             marginTop: 3,
             marginRight: 20
-        }
+        },
+        modalBackGround: {
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        modalContainer: {
+            width: '80%',
+            backgroundColor: colors.bg_secondary,
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+            borderRadius: 15,
+            elevation: 20,
+        },
     }
+
+
+    const ModalPoup = ({ visible, children }) => {
+        const [showModal, setShowModal] = React.useState(visible);
+        const scaleValue = React.useRef(new Animated.Value(0)).current;
+        React.useEffect(() => {
+            toggleModal();
+        }, [visible]);
+        const toggleModal = () => {
+            if (visible) {
+                setShowModal(true);
+                Animated.spring(scaleValue, {
+                    toValue: 1,
+                    duration: 300,
+                    useNativeDriver: true,
+                }).start();
+            } else {
+                setTimeout(() => setShowModal(false), 200);
+                Animated.timing(scaleValue, {
+                    toValue: 0,
+                    duration: 300,
+                    useNativeDriver: true,
+                }).start();
+            }
+        };
+        return (
+            <Modal transparent visible={showModal}>
+                <View style={styles.modalBackGround}>
+                    <Animated.View
+                        style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
+                        {children}
+                    </Animated.View>
+                </View>
+            </Modal>
+        );
+    };
 
     return (
         <SafeAreaView style={styles.container}>
+            <ModalPoup visible={visible}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", width: '100%', borderBottomWidth: 1, paddingBottom: 10, borderColor: colors.grey2 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 500, color: colors.text_secondary }}>Edite seu perfil</Text>
+                    <Ionicons name={'close'} size={22} color={colors.purple} onPress={() => setVisible(false)} />
+                </View>
+
+                <View style={{ marginTop: 20 }}>
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", }}>
+                        <View style={styles.profileImageEdit}>
+                            <Image source={require("../assets/profile-pic.jpg")} style={styles.image} resizeMode="center"></Image>
+                        </View>
+                        <View style={{
+                            backgroundColor:colors.purple_03, 
+                            borderRadius: 100, 
+                            height:28, 
+                            width: 28, 
+                            display: "flex", 
+                            flexDirection:"row", 
+                            alignItems:"center", 
+                            justifyContent:"center",
+                            marginTop: "30%",
+                            marginLeft: -30
+                            }}>
+                            <Ionicons name={'pencil-outline'} size={16} color={colors.text_main} />
+                        </View>
+                    </View>
+
+                    <AppTextInput placeholder="Nome" customStyles={{ backgroundColor: colors.bg }} />
+                    <LinearGradient style={{ borderRadius: 8, height: 45, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 20 }}
+                        colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+                        start={{ x: 1, y: 0 }}
+                        end={{ x: 0, y: 0 }}>
+                        <Text
+                            style={{ fontWeight: 600, fontSize: 18, color: '#F5F5F5' }}
+                        >
+                            Salvar
+                        </Text>
+                    </LinearGradient>
+                </View>
+            </ModalPoup>
+
             <ScrollView showsVerticalScrollIndicator={false}>
 
                 <View style={styles.cardProfile}>
@@ -133,7 +243,8 @@ export default function ProfileScreen() {
                             start={{ x: 1, y: 0 }}
                             end={{ x: 0, y: 0 }}>
                             <Text
-                                className="text-xl text-center" style={{ color:themeColors.text_main }}
+                                className="text-xl text-center" style={{ color: themeColors.text_main }}
+                                onPress={() => setVisible(true)}
                             >
                                 Editar
                             </Text>
@@ -157,11 +268,88 @@ export default function ProfileScreen() {
                 </View>
 
 
-                <Text style={[styles.recent]}>Documentos adicionados</Text>
-                <View style={{ marginTop: 15, marginLeft: 20 }}>
+                <Text style={[styles.recent]}>Seus resumos</Text>
+                <View
+                    style={{
+                        marginTop: 10,
+                        marginHorizontal: 20,
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.grey2,
+                        paddingVertical: 10,
+                    }}>
+                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 15 }}>
+                        <View style={{ backgroundColor: colors.purple_pink_03, padding: 10, borderRadius: 5, width: 50, height: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ color: colors.purple, fontSize: 17, fontWeight: 600 }}>24</Text>
+                            <Text style={{ fontSize: 12, color: colors.purple }}>Set</Text>
+                        </View>
+                        <View>
+                            <View >
+                                <Text style={{ fontSize: 16, fontWeight: 600, color: colors.text_main }}>Titulo</Text>
+                                <Text style={{ fontSize: 14, color: colors.text_secondary, marginTop: 3 }}>Começo do texto...</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <Ionicons style={{ color: colors.text_main }} name={'chevron-forward-outline'} size={25} onPress={() => navigation.navigate('FileDetail')} />
+                </View>
+                <View
+                    style={{
+                        marginHorizontal: 20,
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.grey2,
+                        paddingVertical: 10,
+                    }}>
+                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 15 }}>
+                        <View style={{ backgroundColor: colors.purple_pink_03, padding: 10, borderRadius: 5, width: 50, height: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ color: colors.purple, fontSize: 17, fontWeight: 600 }}>14</Text>
+                            <Text style={{ fontSize: 12, color: colors.purple }}>Abril</Text>
+                        </View>
+                        <View>
+                            <View >
+                                <Text style={{ fontSize: 16, fontWeight: 600, color: colors.text_main }}>Titulo</Text>
+                                <Text style={{ fontSize: 14, color: colors.text_secondary, marginTop: 3 }}>Começo do texto...</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <Ionicons style={{ color: colors.text_main }} name={'chevron-forward-outline'} size={25} onPress={() => navigation.navigate('FileDetail')} />
+                </View>
+                <View
+                    style={{
+                        marginHorizontal: 20,
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        paddingVertical: 10,
+                    }}>
+                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 15 }}>
+                        <View style={{ backgroundColor: colors.purple_pink_03, padding: 10, borderRadius: 5, width: 50, height: 50, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <Text style={{ color: colors.purple, fontSize: 17, fontWeight: 600 }}>28</Text>
+                            <Text style={{ fontSize: 12, color: colors.purple }}>Fev</Text>
+                        </View>
+                        <View>
+                            <View >
+                                <Text style={{ fontSize: 16, fontWeight: 600, color: colors.text_main }}>Titulo</Text>
+                                <Text style={{ fontSize: 14, color: colors.text_secondary, marginTop: 3 }}>Começo do texto...</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <Ionicons style={{ color: colors.text_main }} name={'chevron-forward-outline'} size={25} onPress={() => navigation.navigate('FileDetail')} />
+                </View>
+                {/*<View style={{ marginTop: 15, marginLeft: 20 }}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                        <View style={styles.mediaImageContainer}>
-                            <Image source={require("../assets/images/docs.png")} style={styles.image} resizeMode="cover"></Image>
+                        <View style={styles.mediaImageContainer} onPress={() => navigation.navigate('FileDetail')}>
+                            <Image source={require("../assets/images/docs.png")} style={styles.image} resizeMode="cover" onPress={() => navigation.navigate('FileDetail')}></Image>
                         </View>
                         <View style={styles.mediaImageContainer}>
                             <Image source={require("../assets/images/docs.png")} style={styles.image} resizeMode="cover"></Image>
@@ -171,7 +359,7 @@ export default function ProfileScreen() {
                         </View>
                     </ScrollView>
                 </View>
-                <Text style={[styles.recent]}>Atividades recentes</Text>
+               <Text style={[styles.recent]}>Atividades recentes</Text>
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                     <View style={styles.recentItem}>
                         <View style={styles.activityIndicator}></View>
@@ -190,7 +378,7 @@ export default function ProfileScreen() {
                             </Text>
                         </View>
                     </View>
-                </View>
+                </View>*/}
 
                 <View style={{ height: 75 }}></View>
             </ScrollView>

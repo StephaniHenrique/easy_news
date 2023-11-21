@@ -3,8 +3,12 @@ import { Switch, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, 
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from '../theme/ThemeProvider';
 
+import { useNavigation } from '@react-navigation/native'
+
 
 export default function ConfigScreen() {
+    const navigation = useNavigation();
+
     const [isEnabled, setIsEnabled] = useState(false);
 
     const { dark, colors, setScheme } = useTheme();
@@ -93,7 +97,7 @@ export default function ConfigScreen() {
 
                 <View style={[styles.card, { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }]} >
                     <Text style={{ fontWeight: 600, fontSize: 16, color: colors.text_main }}>EasyNews Free</Text>
-                    <Text style={{ color: colors.grey }}>Mudar plano</Text>
+                    <Text style={{ color: colors.grey }} onPress={() => navigation.navigate('Premium')} >Mudar plano</Text>
                 </View>
 
                 <View style={{ marginHorizontal: 25, marginTop: 30 }}>
@@ -125,7 +129,7 @@ export default function ConfigScreen() {
                             <Ionicons style={{ color: colors.text_main }} name={'chatbox-ellipses-outline'} size={25} />
                             <Text style={{ color: colors.text_main }}>Linguagem</Text>
                         </View>
-                        <Ionicons style={{ color: colors.text_main }} name={'chevron-forward-outline'} size={25} />
+                        <Ionicons style={{ color: colors.text_main }} name={'chevron-forward-outline'} size={25}  onPress={() => navigation.navigate('Language')}/>
                     </View>
 
                     <View style={styles.listOptionSpace}>
