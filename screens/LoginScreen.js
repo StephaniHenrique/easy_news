@@ -1,102 +1,185 @@
-import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { themeColors } from '../theme'
-import { useNavigation } from '@react-navigation/native'
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  ScrollView
+} from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
+
+import { useTheme } from '../theme/ThemeProvider';
+
+import AppTextInput from "../components/AppTextInput";
+
+import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient';
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function LoginScreen() {
-  const navigation = useNavigation();
-  return (
-    <LinearGradient   className="flex-1"
-    colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-    start={{ x: 1, y: 0 }}
-    end={{ x: 0, y: 0 }}>
-    <View className="flex-1">
-        
-      <SafeAreaView  className="flex ">
-       
-        <View  className="flex-row justify-center">
-          <Image source={require('../assets/images/welcome.png')} 
-          style={{width: 200, height: 180}} />
-        </View>
-        
-      </SafeAreaView>
-      
-      <View 
-        style={{borderTopLeftRadius: 50, borderTopRightRadius: 50}} 
-        className="flex-1 bg-white px-8 pt-8">
-      
-      <View  className="flex-row justify-center">
-          <Image source={require('../assets/images/easy.png')} 
-          style={{width:150, height: 30, marginBottom: 30}} />
-        </View>
-          <View className="form space-y-2">
-            <Text className="text-gray-700 ml-4">Email Address</Text>
-            <TextInput 
-              className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-              placeholder="email"
-            />
-            <Text className="text-gray-700 ml-4">Password</Text>
-            <TextInput 
-              className="p-4 bg-gray-100 text-gray-700 rounded-2xl"
-              secureTextEntry
-              placeholder="password"
-            />
-            <TouchableOpacity className="flex items-end">
-              <Text className="text-gray-700 mb-5">Forgot Password?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity >
-                 <LinearGradient className="py-3 rounded-xl"
-                  colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-                  start={{ x: 1, y: 0 }}
-                  end={{ x: 0, y: 0 }}>
-                <Text 
-                    className="text-xl font-bold text-center" style={{color:themeColors.bg}}
-                    onPress={()=> navigation.navigate('Tab')}
-                >
-                        Login
-                </Text>
-                </LinearGradient>
-             </TouchableOpacity>
-            
-          </View>
-          <View className="flex-row justify-center" style={{marginTop: 10}}>
-              <Text className="text-gray-500 font-semibold">
-                  Don't have an account?
-              </Text>
-              <TouchableOpacity onPress={()=> navigation.navigate('SignUp')}>
-                  <Text className="font-semibold text-yellow-500"> Sign Up</Text>
-              </TouchableOpacity>
-          </View>
-          <Text className="text-center text-gray-500" style={{fontSize:14, margin: 20}}>Or continue with</Text>
-          <View className="flex-row justify-center space-x-12">
-            <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-              <Image source={require('../assets/icons/google.png')} className="w-10 h-10" />
-            </TouchableOpacity>
-            <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-              <Image source={require('../assets/icons/apple.png')} className="w-10 h-10" />
-            </TouchableOpacity>
-            <TouchableOpacity className="p-2 bg-gray-100 rounded-2xl">
-              <Image source={require('../assets/icons/facebook.png')} className="w-10 h-10" />
-            </TouchableOpacity>
-          </View>
-    
-          
-      </View>
-    </View>
-    
-    </LinearGradient>
-  )
-}
 
-const styles = StyleSheet.create({
-  text: {
-    textAlign: 'center',
-    fontWeight: '600',
-    fontSize: 22,
-    marginBottom: 60,
-    color: themeColors.bg_dark,
-  },
-});
+  const navigation = useNavigation();
+  const { width } = Dimensions.get('screen');
+  const { colors } = useTheme();
+
+  return (
+    <SafeAreaView style={{display:"flex", justifyContent:"center", height:"100%", backgroundColor:colors.bg}}>
+      <View
+        style={{
+          padding: 10 * 2,
+        }}
+      >
+        <View
+          style={{
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+              color: colors.purple,
+              marginTop: 40,
+              marginBottom: 20,
+              fontWeight: 600,
+            }}
+          >
+            Login
+          </Text>
+          <Text
+            style={{
+              color: colors.text_secondary,
+              fontSize: 18,
+              maxWidth: "70%",
+              textAlign: "center",
+            }}
+          >
+            Acesse agora para ver suas noticias favoritas!
+          </Text>
+        </View>
+        <View
+          style={{
+            marginTop: 10 * 3,
+          }}
+        >
+          <AppTextInput placeholder="Email" />
+          <AppTextInput placeholder="Password" />
+        </View>
+
+        <View>
+          <Text
+            style={{
+              fontSize: 14,
+              color: colors.purple,
+              alignSelf: "flex-end",
+              marginTop: 10,
+              marginBottom: 20,
+            }}
+          >
+            Forgot your password ?
+          </Text>
+        </View>
+        <TouchableOpacity style={{ marginTop: 20, marginBottom: 10 }}>
+          <LinearGradient className="py-3 rounded-xl"
+            colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0, y: 0 }}>
+            <Text
+              className="text-xl font-bold text-center" style={{ color: '#F5F5F5' }}
+              onPress={() => navigation.navigate('Tab')}
+            >
+              Login
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            padding: 10,
+          }}
+        >
+          <Text
+            style={{
+              color: colors.grey,
+              fontWeight: 600,
+              textAlign: "center",
+              fontSize: 14,
+            }}
+          >
+            Ainda não tem uma conta? <Text style={{ color: colors.purple }}   onPress={() => navigation.navigate("SignUp")}>Cadastre-se</Text>
+          </Text>
+        </TouchableOpacity>
+
+        <View
+          style={{
+            marginVertical: 10 * 3,
+          }}
+        ><View style={{display:"flex", flexDirection: "row", width: "100%", alignItems:"center", justifyContent:"center", gap:10}}>
+            <View style={{borderTopWidth: 1, borderTopColor: colors.grey, width:"28%"}}></View>
+            <Text
+              style={{
+
+                color: colors.grey,
+                textAlign: "center",
+                fontSize: 14,
+              }}
+            >
+              Or continue with
+            </Text>
+            <View style={{borderTopWidth: 1,  borderTopColor: colors.grey, width: "28%"}}></View>
+          </View>
+          <View
+            style={{
+              marginTop: 25,
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                padding: 10,
+                backgroundColor: colors.grey2,
+                borderRadius: 10 / 2,
+                marginHorizontal: 10,
+              }}
+            >
+              <Ionicons
+                name="logo-google"
+                color={colors.purple}
+                size={25}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                padding: 10,
+                backgroundColor:colors.grey2,
+                borderRadius: 10 / 2,
+                marginHorizontal: 10,
+              }}
+            >
+              <Ionicons
+                name="logo-apple"
+                color={colors.purple}
+                size={25}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                padding: 10,
+                backgroundColor:colors.grey2,
+                borderRadius: 10 / 2,
+                marginHorizontal: 10,
+              }}
+            >
+              <Ionicons
+                name="logo-facebook"
+                color={colors.purple}
+                size={25}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+}
