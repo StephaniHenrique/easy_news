@@ -111,7 +111,7 @@ export default function SignUpScreen() {
                   fontSize: 14,
                 }}
               >
-                Or continue with
+                Ou continue com
               </Text>
               <View style={{borderTopWidth: 1,  borderTopColor: colors.grey, width: "28%"}}></View>
             </View>
@@ -169,4 +169,6 @@ export default function SignUpScreen() {
         </View>
       </SafeAreaView>
     )
+
+
 }
