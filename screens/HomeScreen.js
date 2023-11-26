@@ -101,7 +101,7 @@ export default function HomeScreen() {
       borderRadius: 15,
     },
     topHotelCard: {
-      height: 140,
+      height: 145,
       width: 120,
       backgroundColor: colors.bg_secondary,
       elevation: 15,
@@ -179,8 +179,10 @@ export default function HomeScreen() {
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <View>
-                <Text style={{ fontWeight: 'bold', fontSize: 14, color: colors.text_main }}>
-                  {article.title}
+                <Text style={{ fontWeight: 'bold', fontSize: 14, color: colors.text_main, width:150 }}
+                numberOfLines={2} 
+                ellipsizeMode="tail">
+                {article.title.length > 35 ? `${article.title.substring(0, 35)}...` : article.title}
                 </Text>
                 {/* <Text style={{ color: colors.grey, fontSize: 10 }}>
                   {article.description}
@@ -195,11 +197,7 @@ export default function HomeScreen() {
                 marginTop: 10,
               }}>
               <View style={{ flexDirection: 'row' }}>
-                <Icon name="star" size={15} color={colors.yellow} />
-                <Icon name="star" size={15} color={colors.yellow} />
-                <Icon name="star" size={15} color={colors.yellow} />
-                <Icon name="star" size={15} color={colors.yellow} />
-                <Icon name="star" size={15} color={colors.grey} />
+              <Text style={{ fontSize: 10, color: colors.grey }}>30 comentários</Text>
               </View>
               <Text style={{ fontSize: 10, color: colors.grey }}>{article.source_id}</Text>
             </View>
@@ -214,7 +212,13 @@ export default function HomeScreen() {
       <View style={style.topHotelCard}>
         <Image style={style.topHotelCardImage} source={{ uri: article.image_url }} />
         <View style={{ paddingVertical: 5, paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 6, fontWeight: 'bold', color: colors.text_main }}>{article.title}</Text>
+          <Text style={{ fontSize: 8, fontWeight: 'bold', color: colors.text_main }}
+           numberOfLines={2} 
+           ellipsizeMode="tail">
+            {article.title}
+          </Text>
+          
+          <Text style={{ fontSize: 6, color: colors.grey, marginTop:4 }}>{article.source_id}</Text>
           {/* <Text style={{ fontSize: 7, fontWeight: 'bold', color: colors.grey }}>
             {article.description}
           </Text> */}
