@@ -7,18 +7,20 @@ import {
   View,
   Image,
   TextInput,
-  SafeAreaView
+  SafeAreaView,
+  TouchableOpacity
 } from 'react-native';
 import { themeColors } from '../theme'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme/ThemeProvider';
 import AppInputText from "../components/AppTextInput"
+import { LinearGradient } from 'expo-linear-gradient';
+import { color } from 'react-native-reanimated';
 
 const FileDetailScreen = ({ navigation }) => {
 
   const { colors } = useTheme();
-
 
   const style = {
     priceTag: {
@@ -44,12 +46,11 @@ const FileDetailScreen = ({ navigation }) => {
       alignItems: 'center',
     },
     headerImage: {
-      height: 220,
-      backgroundColor: colors.purple,
+      height: 250,
       overflow: 'hidden',
     },
     header: {
-      marginTop: 60,
+      marginTop: 30,
       flexDirection: 'row',
       alignItems: 'center',
       marginHorizontal: 20,
@@ -58,15 +59,11 @@ const FileDetailScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ height: "100%", backgroundColor: colors.bg }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-        <StatusBar
-          barStyle="light-content"
-          translucent
-        />
-        <View style={style.headerImage} >
+        <ImageBackground style={style.headerImage} source={require("../assets/images/fundo.png")} >
           <View style={style.header}>
             <Icon
               name="arrow-back-ios"
@@ -75,9 +72,8 @@ const FileDetailScreen = ({ navigation }) => {
               onPress={navigation.goBack}
             />
           </View>
-        </View>
-        <View style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20, backgroundColor: colors.bg, marginTop: -100, paddingTop: 20 }}>
-         
+        </ImageBackground>
+        <View style={{ backgroundColor:colors.bg, borderTopLeftRadius: 20, borderTopRightRadius: 20, marginTop: -50, paddingTop: 20, height: "100%" }}>
           <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
             <Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.text_main }}>Titulo</Text>
             <Text
@@ -87,19 +83,20 @@ const FileDetailScreen = ({ navigation }) => {
                 color: colors.grey,
                 marginTop: 5,
               }}>
-              24/09/2023
+
+              20/09/2023
             </Text>
+
             <View
               style={{
                 marginTop: 10,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
-            
             </View>
             <View style={{ marginTop: 20 }}>
-              <Text style={{ lineHeight: 20, color: colors.text_secondary, textAlign:'justify' }}>
-                O texto todo da pessoa resumido aqui IKBLWEB  LF WILEB I FILB FIUBFEKSDJB CIKDJB OLWEU IFWLSBNSDJ CNSLDFIVBESRIK  JFNELRIFBRLFUEDUIL LDKNCVKLDSJB CFDJB FILERU FBDJKCBKDJSB CU
+              <Text style={{ lineHeight: 20, color: colors.text_secondary }}>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
               </Text>
             </View>
           </View>
@@ -114,10 +111,57 @@ const FileDetailScreen = ({ navigation }) => {
             <Text style={{ fontSize: 20, fontWeight: 'bold', width: 100 }} >
 
             </Text>
-           
           </View>
         </View>
+
       </ScrollView>
+      <View style={{ position: 'absolute', bottom: 0, width: '100%', paddingBottom: 30, paddingTop: 10 }}>
+        <View
+          style={{
+            paddingHorizontal: 10 * 2,
+            flexDirection: "row",
+            gap: 16
+          }}
+        >
+          <TouchableOpacity style={{ width: "48%" }} >
+            <LinearGradient style={{
+              paddingVertical: 10,
+              paddingHorizontal: 13 * 2,
+              borderRadius: 10,
+            }}
+              colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}>
+              <Text
+                className="text-xl text-center" style={{ color: '#F5F5F5' }}
+              >
+                Refazer
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ width: "48%" }} >
+            <LinearGradient style={{ borderRadius: 10 }}
+              colors={['#DC0030', '#DC0030']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 0, y: 0 }}>
+              <View
+                style={{
+                  backgroundColor: colors.bg,
+                  margin: 2,
+                  borderRadius: 8,
+                  paddingVertical: 7,
+                  paddingHorizontal: 10 * 2
+                }}>
+                <Text
+                  className="text-xl text-center" style={{ color: '#DC0030' }}
+                >
+                  Deletar
+                </Text>
+              </View>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
