@@ -18,20 +18,6 @@ import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-let email;
-let password;
-let passwordConfirm;
-let name;
-let role;
-let isPremium;
-let dateOfBirth;
-let state;
-let allowSlang;
-let allowRegionalExpressions;
-let academicDegree;
-let isPcd;
-
-
 export default function SignUpScreen() {
         const [name, setName] = useState('');
         const [email, setEmail] = useState('');
