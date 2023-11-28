@@ -51,9 +51,28 @@ export default function SignUpScreen() {
             //     console.error('Error signing up:', error);
             // });
 
-            setSignUpData({name, email, password, passwordConfirm});
+            setSignUpData(prevData => ({
+                ...prevData,
+                name: name,
+                email: email,
+                password: password,
+                passwordConfirm: passwordConfirm,
+            }));
 
-            navigation.navigate('Language', {signUpData});
+            const updatedSignUpData = {
+                ...signUpData,
+                name: name,
+                email: email,
+                password: password,
+                passwordConfirm: passwordConfirm,
+            };
+
+            console.log(updatedSignUpData);
+
+            // setSignUpData({name, email, password, passwordConfirm});
+            // console.log(signUpData);
+
+            navigation.navigate('Language', {signUpData: updatedSignUpData});
         };
 
         const navigation = useNavigation();

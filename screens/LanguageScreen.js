@@ -37,7 +37,17 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
 
         setLanguageData({age, state, allowSlang, allowRegionalExpressions, isPcd, academicDegree});
 
-        console.log('Combined data:', { signUpData, languageData });
+        const updatedLanguageData = {
+            ...languageData,
+            state: state,
+            age: age,
+            allowSlang: allowSlang,
+            allowRegionalExpressions: allowRegionalExpressions,
+            isPcd: isPcd,
+            academicDegree: academicDegree,
+        };
+
+        console.log('Combined data:', { signUpData, updatedLanguageData });
 
         navigation.navigate('Tab');
     }
