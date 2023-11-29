@@ -22,7 +22,7 @@ import { generateText } from '../GPTAPI/GPTAPI';
 const DetailScreen = ({ navigation, route }) => {
   const item = route.params;
   const { colors } = useTheme();
-  const [translatedText, setTranslatedText] = useState('Carregando...')
+  const [translatedText, setTranslatedText] = useState('A IA está traduzindo o conteúdo para você..')
   const generateResponse = async (baseText, prompt) => {
     const texto = prompt;
     try {
@@ -50,7 +50,7 @@ const DetailScreen = ({ navigation, route }) => {
         5. Tem dislexia: não
         6. Grau Acadêmico: ensino fundamental
 
-        Certifique-se de manter os fatos inalterados e adapte o tom para refletir o contexto dessa pessoa.
+        Certifique-se de manter os fatos da notícia inalterados e adapte o tom para refletir o contexto dessa pessoa.
         `;
       try {
         const response = await generateResponse(item.content, prompt)
