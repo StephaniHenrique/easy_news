@@ -30,26 +30,6 @@ export default function SignUpScreen() {
             console.log('Password:', password);
             console.log('Confirm Password:', passwordConfirm);
 
-            // fetch('http://localhost:8080', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(),
-            // })
-            // .then(response => {
-            //     if (response.ok) {
-            //         // Handle successful signup
-            //         console.log('User signed up successfully!');
-            //     } else {
-            //         // Handle signup error
-            //         throw new Error('Sign up failed');
-            //     }
-            // })
-            // .catch(error => {
-            //     // Handle error here
-            //     console.error('Error signing up:', error);
-            // });
 
             setSignUpData(prevData => ({
                 ...prevData,

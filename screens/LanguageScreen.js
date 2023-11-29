@@ -47,7 +47,27 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
             academicDegree: academicDegree,
         };
 
-        console.log('Combined data:', { signUpData, updatedLanguageData });
+        const combinedData = { ...signUpData, ...updatedLanguageData};
+
+        console.log('Combined data:', combinedData);
+
+        fetch('http://localhost:8080/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(combinedData),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('User signed up successfully!');
+            } else {
+                throw new Error('Sign up failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error signing up:', error);
+        });
 
         navigation.navigate('Tab');
     }
