@@ -27,6 +27,7 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
 
     const handleLanguage = () => {
         const { signUpData } = route.params;
+        const isPremium = 'false';
         console.log('Sign up data:', signUpData);
         console.log('State:', state);
         console.log('Age:', age);
@@ -35,23 +36,25 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
         console.log('Is PCD:', isPcd);
         console.log('Academic degree:', academicDegree);
 
-        setLanguageData({age, state, allowSlang, allowRegionalExpressions, isPcd, academicDegree});
+        setLanguageData({isPremium, age, state, allowSlang, allowRegionalExpressions, academicDegree, isPcd});
 
         const updatedLanguageData = {
             ...languageData,
-            state: state,
+            isPremium: isPremium,
             age: age,
+            state: state,
             allowSlang: allowSlang,
             allowRegionalExpressions: allowRegionalExpressions,
-            isPcd: isPcd,
             academicDegree: academicDegree,
+            isPcd: isPcd,
         };
 
         const combinedData = { ...signUpData, ...updatedLanguageData};
 
         console.log('Combined data:', combinedData);
+        console.log(JSON.stringify(combinedData));
 
-        fetch('http://localhost:8080/user', {
+        fetch('http://localhost:8080/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

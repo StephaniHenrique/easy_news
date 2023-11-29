@@ -30,21 +30,25 @@ export default function SignUpScreen() {
             console.log('Password:', password);
             console.log('Confirm Password:', passwordConfirm);
 
+            if(password !== passwordConfirm) {
+                alert('As senhas não coincidem!');
+                return;
+            }
 
             setSignUpData(prevData => ({
                 ...prevData,
-                name: name,
                 email: email,
                 password: password,
-                passwordConfirm: passwordConfirm,
+                name: name,
+                role: 'USER' // acho que é redundante aqui
             }));
 
             const updatedSignUpData = {
                 ...signUpData,
-                name: name,
                 email: email,
                 password: password,
-                passwordConfirm: passwordConfirm,
+                name: name,
+                role: 'USER'
             };
 
             console.log(updatedSignUpData);
