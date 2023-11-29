@@ -43,6 +43,8 @@ const Tabs = () => {
 
     const [visible, setVisible] = React.useState(false);
 
+    const [focusedAreaText, setFocusedAreaText] = React.useState(false);
+
     const styles = {
 
         modalBackGround: {
@@ -161,14 +163,18 @@ const Tabs = () => {
                 </View>
 
                 <View style={{ marginTop: 20 }}>
-                    <AppTextInput placeholder="Titulo" customStyles={{backgroundColor: colors.bg}} />
-                    <AppTextInput placeholder="Texto" customStyles={{backgroundColor: colors.bg}}  />
-                    <LinearGradient style={{borderRadius:8, height: 45, display: 'flex', alignItems:'center', justifyContent:'center', marginTop: 20}}
+                    <AppTextInput placeholder="Titulo" customStyles={{ backgroundColor: colors.bg }} />
+                    <AppTextInput
+                        multiline
+                        numberOfLines={4}
+                        placeholder="Seu texto"
+                        customStyles={{ backgroundColor: colors.bg, textAlignVertical:"top", maxHeight:150}} />
+                    <LinearGradient style={{ borderRadius: 8, height: 45, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
                         colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
                         start={{ x: 1, y: 0 }}
                         end={{ x: 0, y: 0 }}>
                         <Text
-                            style={{fontWeight: 600, fontSize: 18, color: '#F5F5F5' }}
+                            style={{ fontWeight: 600, fontSize: 18, color: '#F5F5F5' }}
                         >
                             Enviar
                         </Text>

@@ -210,7 +210,7 @@ return (
           <View style={style.priceTag}>
             <Text
               style={{
-                width: 100,
+                width: 200,
                 fontSize: 16,
                 fontWeight: 'bold',
                 color: themeColors.text_main,
