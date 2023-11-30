@@ -24,6 +24,35 @@ export default function LoginScreen() {
   const { width } = Dimensions.get('screen');
   const { colors } = useTheme();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = () => {
+      console.log('Email:', email);
+      console.log('Password:', password);
+
+      const updatedData = { email, password};
+
+      console.log('Updated data:', updatedData);
+      fetch('http://192.168.0.29:8080/user/authenticate', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updatedData)
+      })
+      .then(response => {
+          if(response.ok) {
+              navigation.navigate('Tab');
+              console.log('User login successfully!')
+          } else {
+              throw new Error('Login failed');
+          }
+      })
+      .catch(error => {
+          console.error('Error logging in:', error);
+      });
+  }
+
   return (
     <SafeAreaView style={{display:"flex", justifyContent:"center", height:"100%", backgroundColor:colors.bg}}>
       <View
@@ -63,8 +92,8 @@ export default function LoginScreen() {
             marginTop: 10 * 3,
           }}
         >
-          <AppTextInput placeholder="Email" />
-          <AppTextInput placeholder="Password" />
+          <AppTextInput placeholder="Email" onChangeText={(value) => setEmail(value)}/>
+          <AppTextInput placeholder="Password" onChangeText={(value) => setPassword(value)}/>
         </View>
 
         <View>
@@ -87,7 +116,7 @@ export default function LoginScreen() {
             end={{ x: 0, y: 0 }}>
             <Text
               className="text-xl font-bold text-center" style={{ color: '#F5F5F5' }}
-              onPress={() => navigation.navigate('Tab')}
+              onPress={() => handleLogin()}
             >
               Login
             </Text>

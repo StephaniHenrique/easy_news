@@ -65,6 +65,7 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
         })
         .then(response => {
             if (response.ok) {
+                navigaion.navigate('Tab');
                 console.log('User signed up successfully!');
             } else {
                 throw new Error('Sign up failed');
@@ -74,7 +75,6 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
             console.error('Error signing up:', error);
         });
 
-        navigation.navigate('Tab');
     }
 
     const navigation = useNavigation();
