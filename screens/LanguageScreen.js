@@ -54,7 +54,9 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
         console.log('Combined data:', combinedData);
         console.log(JSON.stringify(combinedData));
 
-        fetch('http://localhost:8080/user/register', {
+        // usar o IPv4 da máquina ao invés do localhost
+        // https://stackoverflow.com/questions/60639983/react-native-expo-fetch-throws-network-request-failed
+        fetch('http://192.168.0.29:8080/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
