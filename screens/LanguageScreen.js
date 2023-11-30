@@ -28,13 +28,14 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
     const handleLanguage = () => {
         const { signUpData } = route.params;
         const isPremium = 'false';
-        console.log('Sign up data:', signUpData);
-        console.log('State:', state);
-        console.log('Age:', age);
-        console.log('Allow slang:', allowSlang);
-        console.log('Allow regional expressions:', allowRegionalExpressions);
-        console.log('Is PCD:', isPcd);
-        console.log('Academic degree:', academicDegree);
+
+        // console.log('Sign up data:', signUpData);
+        // console.log('State:', state);
+        // console.log('Age:', age);
+        // console.log('Allow slang:', allowSlang);
+        // console.log('Allow regional expressions:', allowRegionalExpressions);
+        // console.log('Is PCD:', isPcd);
+        // console.log('Academic degree:', academicDegree);
 
         setLanguageData({isPremium, age, state, allowSlang, allowRegionalExpressions, academicDegree, isPcd});
 
@@ -51,8 +52,8 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
 
         const combinedData = { ...signUpData, ...updatedLanguageData};
 
-        console.log('Combined data:', combinedData);
-        console.log(JSON.stringify(combinedData));
+        // console.log('Combined data:', combinedData);
+        // console.log(JSON.stringify(combinedData));
 
         // usar o IPv4 da máquina ao invés do localhost
         // https://stackoverflow.com/questions/60639983/react-native-expo-fetch-throws-network-request-failed
@@ -66,13 +67,13 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
         .then(response => {
             if (response.ok) {
                 navigaion.navigate('Tab');
-                console.log('User signed up successfully!');
+                console.log('Usuario registrado com sucesso!');
             } else {
-                throw new Error('Sign up failed');
+                throw new Error('Erro no cadastro!');
             }
         })
         .catch(error => {
-            console.error('Error signing up:', error);
+            console.error('Erro no cadastro:', error);
         });
 
     }

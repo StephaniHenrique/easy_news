@@ -25,10 +25,10 @@ export default function SignUpScreen() {
         const [passwordConfirm, setPasswordConfirm] = useState('');
         const [signUpData, setSignUpData] = useState({});
         const handleSignUp = () => {
-            console.log('Name:', name);
-            console.log('Email:', email);
-            console.log('Password:', password);
-            console.log('Confirm Password:', passwordConfirm);
+            // console.log('Name:', name);
+            // console.log('Email:', email);
+            // console.log('Password:', password);
+            // console.log('Confirm Password:', passwordConfirm);
 
             if(password !== passwordConfirm) {
                 alert('As senhas não coincidem!');
@@ -51,10 +51,7 @@ export default function SignUpScreen() {
                 role: 'USER'
             };
 
-            console.log(updatedSignUpData);
-
-            // setSignUpData({name, email, password, passwordConfirm});
-            // console.log(signUpData);
+            // console.log(updatedSignUpData);
 
             navigation.navigate('Language', {signUpData: updatedSignUpData});
         };

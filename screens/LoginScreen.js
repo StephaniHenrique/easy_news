@@ -27,12 +27,12 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = () => {
-      console.log('Email:', email);
-      console.log('Password:', password);
+      // console.log('Email:', email);
+      // console.log('Password:', password);
 
       const updatedData = { email, password};
 
-      console.log('Updated data:', updatedData);
+      // console.log('Updated data:', updatedData);
       fetch('http://192.168.0.29:8080/user/authenticate', {
           method: 'POST',
           headers: {
@@ -43,13 +43,15 @@ export default function LoginScreen() {
       .then(response => {
           if(response.ok) {
               navigation.navigate('Tab');
-              console.log('User login successfully!')
+              console.log('Usuario logado com sucesso!');
+          } else if(response.status === 403) {
+              console.log('Email ou senha incorretos!');
           } else {
-              throw new Error('Login failed');
+              throw new Error('Erro no login!');
           }
       })
       .catch(error => {
-          console.error('Error logging in:', error);
+          console.error('Erro no login:', error);
       });
   }
 
