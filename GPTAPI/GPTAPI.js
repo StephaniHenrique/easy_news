@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const GPT_API_KEY = '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'; // Replace with your actual API key
+const GPT_API_KEY = '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';
 const GPT_API_URL = 'https://api.openai.com/v1/chat/completions'; // Endpoint for GPT-3.5
 
 export const generateText = async (promptText) => {
