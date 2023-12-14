@@ -10,31 +10,21 @@ export const UserContext = createContext({});
 */
 
 function UserProvider({children}) {
+    const [token, setToken] = useState({});
     const [email, setEmail] = useState({});
 
+    function updateToken(token) {
+        setToken(token);
+    }
     function updateEmail(email) {
         setEmail(email);
     }
 
     return(
-        <UserContext.Provider value={{ email, updateEmail }}>
+        <UserContext.Provider value={{ token, updateToken, email, updateEmail }}>
             {children}
         </UserContext.Provider>
     )
 }
 
 export default UserProvider;
-
-// export const UserProvider = ({ children }) => {
-//     const [userEmail, setUserEmail] = useState('');
-//
-//     const updateUserEmail = (email) => {
-//         setUserEmail(email);
-//     };
-//
-//     return (
-//         <UserContext.Provider value={{ email: userEmail, updateEmail: updateUserEmail}}>
-//             {children}
-//         </UserContext.Provider>
-//     );
-// };
