@@ -24,7 +24,7 @@ export default function LoginScreen() {
     const {width} = Dimensions.get('screen');
     const {colors} = useTheme();
 
-    const {email, updateEmail} = useContext(UserContext);
+    const { token, updateToken, email, updateEmail } = useContext(UserContext);
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
@@ -41,20 +41,25 @@ export default function LoginScreen() {
             },
             body: JSON.stringify(updatedData)
         })
-            .then(response => {
-                if (response.ok) {
-                    navigation.navigate('Tab');
-                    console.log('Usuario logado com sucesso!');
-                    // dar algum jeito de pegar o token de response e passar para o UserContext
-                } else if (response.status === 403) {
-                    console.log('Email ou senha incorretos!');
-                } else {
-                    throw new Error('Erro no login!');
-                }
-            })
-            .catch(error => {
-                console.error('Erro no login:', error);
-            });
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else if (response.status === 403) {
+                console.log('Email ou senha incorretos!');
+            } else {
+                throw new Error('Erro no login!');
+            }
+        })
+        .then(data => {
+            const token = data.token;
+            updateToken(token);
+            // console.log("Token: " + token);
+            console.log('Usuario logado com sucesso!');
+            navigation.navigate('Tab');
+        })
+        .catch(error => {
+            console.error('Erro no login:', error);
+        });
     }
 
     return (

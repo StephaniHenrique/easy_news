@@ -138,30 +138,34 @@ export default function ProfileScreen() {
         },
     }
 
-    const {email, updateEmail} = useContext(UserContext);
+    const {token, email} = useContext(UserContext);
+    console.log("Token: " + token)
     const [name, setName] = useState('');
 
-    /*
-useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const url = 'http://192.168.0.29:8080/user/getUser?userEmail=' + email;
-            console.log(url)
-            const response = await fetch(url);
-            console.error(response.status)
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    useEffect(() => {
+        fetch('http://192.168.0.29:8080/user/getUser?userEmail=' + email, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             }
-            const jsonData = await response.json();
-            setName(jsonData.name);
-            console.log(jsonData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-    fetchData();
-}, [email])
-     */
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error('Network response was no OK')
+                }
+            })
+            .then(data => {
+                console.log(data)
+                setName(data.name)
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error)
+            });
+    }, [token]);
+
 
     const ModalPoup = ({visible, children}) => {
         const [showModal, setShowModal] = React.useState(visible);
@@ -280,7 +284,7 @@ useEffect(() => {
                             fontWeight: "500",
                             fontSize: 20,
                             color: colors.text_main
-                        }]}>{/*name*/ "Gustavo Jun"}</Text>
+                        }]}>{name}</Text>
                         <Text style={[styles.text, {color: colors.grey, fontSize: 16}]}>{email}</Text>
                     </View>
                     <TouchableOpacity style={{marginVertical: 20}}>
