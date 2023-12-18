@@ -8,6 +8,7 @@ import com.easynews.easynewsserver.model.db.News;
 import com.easynews.easynewsserver.model.db.User;
 import com.easynews.easynewsserver.model.db.UserRole;
 import com.easynews.easynewsserver.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +34,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+        return userRepository.findById(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
     }
 
     UserService(@Autowired UserRepository userRepository) {
@@ -70,8 +72,9 @@ public class UserService implements UserDetailsService {
     }
 
     public UserResponse getUser(String userEmail) {
-        User user = userRepository.findByEmail(userEmail);
-        System.out.println("Meu usuario lindo: " + user.getName());
+        User user = userRepository.findById(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!!"));
+        System.out.println("Meu usuario lindo: " + user);
         return userToUserResponse(user);
     }
 
@@ -90,7 +93,8 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateUserData(UpdateUserRequest updateUserRequest) {
-        User user = userRepository.findByEmail(updateUserRequest.email());
+        User user = userRepository.findById(updateUserRequest.email())
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
         user.setName(updateUserRequest.name());
         user.setState(updateUserRequest.state());
         user.setIsPremium(updateUserRequest.isPremium());
@@ -104,10 +108,11 @@ public class UserService implements UserDetailsService {
     }
 
     public Set<String> getAllUserFavoriteNews(String userEmail) {
-        User user = userRepository.findByEmail(userEmail);
+        User user = userRepository.findById(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
         Set<String> news = new HashSet<>();
 
-        for(News news1 : user.getNews()) {
+        for (News news1 : user.getNews()) {
             news.add(news1.getId());
         }
         return news;

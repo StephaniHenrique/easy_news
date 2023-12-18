@@ -139,7 +139,7 @@ export default function ProfileScreen() {
     }
 
     const {token, email} = useContext(UserContext);
-    console.log("Token: " + token)
+    // console.log("Token: " + token)
     const [name, setName] = useState('');
 
     useEffect(() => {

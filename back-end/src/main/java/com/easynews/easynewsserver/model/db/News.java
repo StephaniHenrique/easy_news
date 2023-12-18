@@ -25,16 +25,8 @@ public class News {
             inverseJoinColumns = @JoinColumn(name = "user_fk"))
     private Set<User> users;
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-
     public void favoriteUser(User user) {
         users.add(user);
     }
 
-    public String getId() {
-        return id;
-    }
 }

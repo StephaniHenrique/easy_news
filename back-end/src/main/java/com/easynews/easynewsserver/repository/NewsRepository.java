@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Set;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, Integer> {
-   News findById(String id);
-
+public interface NewsRepository extends JpaRepository<News, String> {
 }

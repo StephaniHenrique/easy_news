@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -16,7 +17,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @PostMapping("/createNews")
+    @PostMapping("/create")
     public News saveNews(@RequestBody NewsRequest newsRequest) {
         return newsService.save(newsRequest);
     }
@@ -27,9 +28,14 @@ public class NewsController {
         return ResponseEntity.ok(allPosts);
     }
 
-    @PutMapping("/favoriteNews")
+    @PostMapping("/favorite")
     public News setFavoriteNews(@RequestBody FavoriteRequest favoriteRequest) {
         return newsService.setFavorite(favoriteRequest);
+    }
+
+    @PostMapping("/user")
+    public List<String> getAllUsersFavoriteNews(@RequestBody String userEmail) {
+        return newsService.getAllUsersFavoriteNews(userEmail);
     }
 
 

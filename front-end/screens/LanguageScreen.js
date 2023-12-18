@@ -66,7 +66,7 @@ const LanguageScreen = ({ navigation: { navigate }, route }) => {
         })
         .then(response => {
             if (response.ok) {
-                navigaion.navigate('Tab');
+                navigation.navigate('Tab');
                 console.log('Usuario registrado com sucesso!');
             } else {
                 throw new Error('Erro no cadastro!');
