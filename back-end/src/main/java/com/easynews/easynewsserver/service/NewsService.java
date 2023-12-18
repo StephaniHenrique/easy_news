@@ -6,10 +6,13 @@ import com.easynews.easynewsserver.model.db.News;
 import com.easynews.easynewsserver.model.db.User;
 import com.easynews.easynewsserver.repository.NewsRepository;
 import com.easynews.easynewsserver.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NewsService {
@@ -39,13 +42,27 @@ public class NewsService {
     }
 
     public News setFavorite(FavoriteRequest favoriteRequest) {
-        News news = newsRepository.findById(favoriteRequest.newsId());
-        System.out.println(news);
-        User user = userRepository.findByEmail(favoriteRequest.userEmail());
-        System.out.println(user);
+        News news = newsRepository.findById(favoriteRequest.newsId())
+                .orElseThrow(() -> new EntityNotFoundException("News not found"));
+        User user = userRepository.findById(favoriteRequest.userEmail())
+                .orElseThrow(() -> new EntityNotFoundException("User not found!!"));
 
         news.favoriteUser(user);
 
         return newsRepository.save(news);
+    }
+
+    public List<String> getAllUsersFavoriteNews(String userEmail) {
+        User user = userRepository.findById(userEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!!"));
+        Set<News> userNews = user.getNews();
+
+        List<String> newsIds = new ArrayList<>();
+
+        for (News news : userNews) {
+            newsIds.add(news.getId());
+        }
+
+        return newsIds;
     }
 }
