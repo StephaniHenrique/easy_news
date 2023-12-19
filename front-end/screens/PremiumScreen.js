@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import {
     Dimensions,
     FlatList,
@@ -9,19 +9,19 @@ import {
     View,
     Button,
 } from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from '../theme/ThemeProvider';
+import {useTheme} from '../theme/ThemeProvider';
 
-import { LinearGradient } from 'expo-linear-gradient';
-import { themeColors } from '../theme'
+import {LinearGradient} from 'expo-linear-gradient';
+import {themeColors} from '../theme'
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const cardWidth = width - 40;
 
-const PremiumScreen = ({ navigation }) => {
-    
-    const { colors } = useTheme();
+const PremiumScreen = ({navigation}) => {
+
+    const {colors} = useTheme();
 
     const styles = {
         container: {
@@ -104,36 +104,44 @@ const PremiumScreen = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
 
             <View style={styles.header}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20 }}>
+                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20}}>
                     <Icon
                         name="arrow-back-ios"
                         size={20}
                         color={colors.text_main}
                         onPress={navigation.goBack}
                     />
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: colors.text_main }}>Assinatura premium</Text>
+                    <Text style={{fontSize: 25, fontWeight: 'bold', color: colors.text_main}}>Assinatura premium</Text>
                 </View>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <View style={styles.list}>
-                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple} style={{ fontWeight: 'bold' }} />
+                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple}
+                                  style={{fontWeight: 'bold'}}/>
                         <Text style={styles.textList}>Leituras ilimitadas</Text>
                     </View>
                     <View style={styles.list}>
-                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple} />
+                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple}/>
                         <Text style={styles.textList}>Transforme arquivos ilimitados</Text>
                     </View>
                     <View style={styles.list}>
-                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple} />
+                        <Ionicons name={'checkmark-sharp'} size={28} color={colors.purple}/>
                         <Text style={styles.textList}>Noticias de última mão</Text>
                     </View>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 40, marginBottom: 20 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 600, color: colors.text_main }}>Escolha seu plano</Text>
+                <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: 40,
+                    marginBottom: 20
+                }}>
+                    <Text style={{fontSize: 18, fontWeight: 600, color: colors.text_main}}>Escolha seu plano</Text>
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <View style={styles.card}>
                         <View style={styles.header_card}>
                             <Text style={styles.title}>Individual</Text>
@@ -142,15 +150,15 @@ const PremiumScreen = ({ navigation }) => {
                             <Text style={styles.desc}>Mensalmente</Text>
                             <Text style={styles.price}>R$ 20,00/Mês</Text>
                             <Text style={styles.subtext}>Tenha um mês grátis</Text>
-                            <Text style={styles.desc}>Descrição curtinha, info breve</Text>
+                            <Text style={styles.desc}>Desfrute dos nossos benefícios no seu aparelho!</Text>
                         </View>
-                        <TouchableOpacity style={{ margin: 20 }}>
+                        <TouchableOpacity style={{margin: 20}}>
                             <LinearGradient className="py-3 rounded-xl"
-                                colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-                                start={{ x: 1, y: 0 }}
-                                end={{ x: 0, y: 0 }}>
+                                            colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+                                            start={{x: 1, y: 0}}
+                                            end={{x: 0, y: 0}}>
                                 <Text
-                                    className="text-xl font-bold text-center" style={{ color: themeColors.bg }}
+                                    className="text-xl font-bold text-center" style={{color: themeColors.bg}}
                                     onPress={() => navigation.navigate('Cartao')}
                                 >
                                     Assinar
@@ -158,29 +166,56 @@ const PremiumScreen = ({ navigation }) => {
                             </LinearGradient>
                         </TouchableOpacity>
                     </View>
-                    <View style={styles.card}>
-                        <View style={styles.header_card}>
-                            <Text style={styles.title}>Universitário</Text>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <View style={styles.card}>
+                            <View style={styles.header_card}>
+                                <Text style={styles.title}>Família</Text>
+                            </View>
+                            <View style={styles.space_card}>
+                                <Text style={styles.desc}>Mensalmente</Text>
+                                <Text style={styles.price}>R$ 60,00/Mês</Text>
+                                <Text style={styles.subtext}>Tenha um mês grátis</Text>
+                                <Text style={styles.desc}>Desfrute dos nossos benefícios em até 5 aparelhos!</Text>
+                            </View>
+                            <TouchableOpacity style={{margin: 20}}>
+                                <LinearGradient className="py-3 rounded-xl"
+                                                colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+                                                start={{x: 1, y: 0}}
+                                                end={{x: 0, y: 0}}>
+                                    <Text
+                                        className="text-xl font-bold text-center" style={{color: themeColors.bg}}
+                                        onPress={() => navigation.navigate('Cartao')}
+                                    >
+                                        Assinar
+                                    </Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.space_card}>
-                            <Text style={styles.desc}>Mensalmente</Text>
-                            <Text style={styles.price}>R$ 20,00/Mês</Text>
-                            <Text style={styles.subtext}>Tenha um mês grátis</Text>
-                            <Text style={styles.desc}>Descrição curtinha, info breve</Text>
+                        <View style={styles.card}>
+                            <View style={styles.header_card}>
+                                <Text style={styles.title}>Universitário</Text>
+                            </View>
+                            <View style={styles.space_card}>
+                                <Text style={styles.desc}>Mensalmente</Text>
+                                <Text style={styles.price}>R$ 10,00/Mês</Text>
+                                <Text style={styles.subtext}>Tenha um mês grátis</Text>
+                                <Text style={styles.desc}>Se você é universitário, tem direito ao nosso plano pela
+                                    metade do preço!</Text>
+                            </View>
+                            <TouchableOpacity style={{margin: 20}}>
+                                <LinearGradient className="py-3 rounded-xl"
+                                                colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+                                                start={{x: 1, y: 0}}
+                                                end={{x: 0, y: 0}}>
+                                    <Text
+                                        className="text-xl font-bold text-center" style={{color: themeColors.bg}}
+                                        onPress={() => navigation.navigate('Cartao')}
+                                    >
+                                        Assinar
+                                    </Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity style={{ margin: 20 }}>
-                            <LinearGradient className="py-3 rounded-xl"
-                                colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-                                start={{ x: 1, y: 0 }}
-                                end={{ x: 0, y: 0 }}>
-                                <Text
-                                    className="text-xl font-bold text-center" style={{ color: themeColors.bg }}
-                                    onPress={() => navigation.navigate('Cartao')}
-                                >
-                                    Assinar
-                                </Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
