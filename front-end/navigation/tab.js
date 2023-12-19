@@ -1,25 +1,25 @@
-import React from "react";
+import React, {useCallback, useContext, useState} from "react";
 
-import { Text, View, TouchableOpacity, Animated, Modal } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from '@expo/vector-icons';
+import {Text, View, TouchableOpacity, Animated, Modal} from "react-native";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {Ionicons} from '@expo/vector-icons';
 
 import HomeScreen from '../screens/HomeScreen';
 import FindScreen from '../screens/FindScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import PostScreen from '../screens/PostScreen';
 import ConfigScreen from '../screens/ConfigScreen';
-import { useTheme } from "../theme/ThemeProvider";
+import {useTheme} from "../theme/ThemeProvider";
 
-import { LinearGradient } from 'expo-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
 import AppTextInput from "../components/AppTextInput";
+import {UserContext} from "../contexts/UserContext";
 
 
 const Tab = createBottomTabNavigator();
 
 
-
-const CustomTabBarButton = ({ children, onPress, buttonColor }) => (
+const CustomTabBarButton = ({children, onPress, buttonColor}) => (
     <TouchableOpacity
         style={{
             top: -30,
@@ -38,12 +38,47 @@ const CustomTabBarButton = ({ children, onPress, buttonColor }) => (
     </TouchableOpacity>
 );
 
+const ModalPoup = ({visible, children, styles}) => {
+    const [showModal, setShowModal] = React.useState(visible);
+    const scaleValue = React.useRef(new Animated.Value(0)).current;
+    React.useEffect(() => {
+        toggleModal();
+    }, [visible]);
+    const toggleModal = () => {
+        if (visible) {
+            setShowModal(true);
+            Animated.spring(scaleValue, {
+                toValue: 1,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            setTimeout(() => setShowModal(false), 200);
+            Animated.timing(scaleValue, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+            }).start();
+        }
+    };
+    return (
+        <Modal transparent visible={showModal}>
+            <View style={styles.modalBackGround}>
+                <Animated.View
+                    style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+                    {children}
+                </Animated.View>
+            </View>
+        </Modal>
+    );
+};
+
 const Tabs = () => {
-    const { colors } = useTheme();
 
     const [visible, setVisible] = React.useState(false);
 
-    const [focusedAreaText, setFocusedAreaText] = React.useState(false);
+
+    const {colors} = useTheme();
 
     const styles = {
 
@@ -63,43 +98,45 @@ const Tabs = () => {
         },
     }
 
-    const ModalPoup = ({ visible, children }) => {
-        const [showModal, setShowModal] = React.useState(visible);
-        const scaleValue = React.useRef(new Animated.Value(0)).current;
-        React.useEffect(() => {
-            toggleModal();
-        }, [visible]);
-        const toggleModal = () => {
-            if (visible) {
-                setShowModal(true);
-                Animated.spring(scaleValue, {
-                    toValue: 1,
-                    duration: 300,
-                    useNativeDriver: true,
-                }).start();
-            } else {
-                setTimeout(() => setShowModal(false), 200);
-                Animated.timing(scaleValue, {
-                    toValue: 0,
-                    duration: 300,
-                    useNativeDriver: true,
-                }).start();
-            }
-        };
-        return (
-            <Modal transparent visible={showModal}>
-                <View style={styles.modalBackGround}>
-                    <Animated.View
-                        style={[styles.modalContainer, { transform: [{ scale: scaleValue }] }]}>
-                        {children}
-                    </Animated.View>
-                </View>
-            </Modal>
-        );
-    };
+
+    const [title, setTitle] = useState('')
+    const [customText, setCustomText] = useState('')
+    const handleTitleChange = useCallback((value) => {
+        setTitle(value);
+    }, []);
+
+    const handleCustomTextChange = useCallback((value) => {
+        setCustomText(value);
+    }, []);
+    const {token, email} = useContext(UserContext);
+    const handleCustomText = () => {
+        console.log(email)
+        console.log(title)
+        console.log(customText)
+        fetch('http://192.168.0.29:8080/text/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({email, title, customText})
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    console.log(response.status)
+                    throw new Error('Erro no salvamento do texto!');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
             <Tab.Navigator
                 screenOptions={{
                     headerShown: false,
@@ -117,64 +154,94 @@ const Tabs = () => {
                     },
                 }}>
                 <Tab.Screen name="Home" component={HomeScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Ionicons name={'home-outline'} size={20} color={focused ? colors.purple : colors.grey} />
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name={'home-outline'} size={20} color={focused ? colors.purple : colors.grey}/>
                         </View>
                     )
-                }} />
+                }}/>
                 <Tab.Screen name="Find" component={FindScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Ionicons name={'search-outline'} size={20} color={focused ? colors.purple : colors.grey} />
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name={'search-outline'} size={20} color={focused ? colors.purple : colors.grey}/>
                         </View>
                     )
-                }} />
+                }}/>
                 <Tab.Screen name="Post" component={PostScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Ionicons name={'add-outline'} size={25} color={colors.grey2} />
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name={'add-outline'} size={25} color={colors.grey2}/>
                         </View>
                     ),
                     tabBarButton: (props) => (
-                        <CustomTabBarButton {...props} buttonColor={colors.purple} onPress={() => setVisible(true)} />
+                        <CustomTabBarButton {...props} buttonColor={colors.purple} onPress={() => setVisible(true)}/>
                     )
-                }} />
+                }}/>
                 <Tab.Screen name="Profile" component={ProfileScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Ionicons name={'person-outline'} size={20} color={focused ? colors.purple : colors.grey} />
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name={'person-outline'} size={20} color={focused ? colors.purple : colors.grey}/>
                         </View>
                     )
-                }} />
+                }}/>
                 <Tab.Screen name="Config" component={ConfigScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <Ionicons name={'settings-outline'} size={20} color={focused ? colors.purple : colors.grey} />
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                            <Ionicons name={'settings-outline'} size={20}
+                                      color={focused ? colors.purple : colors.grey}/>
                         </View>
                     )
-                }} />
+                }}/>
             </Tab.Navigator>
 
-            <ModalPoup visible={visible}>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: "center", width: '100%', borderBottomWidth: 1, paddingBottom: 10, borderColor: colors.grey2 }}>
-                    <Text style={{ fontSize: 18, fontWeight: 500, color: colors.text_secondary }}>Adicione sua noticia!</Text>
-                    <Ionicons name={'close'} size={22} color={colors.purple} onPress={() => setVisible(false)} />
+            <ModalPoup visible={visible} styles={styles}>
+
+                <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: "center",
+                    width: '100%',
+                    borderBottomWidth: 1,
+                    paddingBottom: 10,
+                    borderColor: colors.grey2
+                }}>
+                    <Text style={{fontSize: 18, fontWeight: 500, color: colors.text_secondary}}>Adicione sua
+                        noticia!</Text>
+                    <Ionicons name={'close'} size={22} color={colors.purple} onPress={() => setVisible(false)}/>
                 </View>
 
-                <View style={{ marginTop: 20 }}>
-                    <AppTextInput placeholder="Titulo" customStyles={{ backgroundColor: colors.bg }} />
+                <View style={{marginTop: 20}}>
+                    <AppTextInput
+                        placeholder="Titulo"
+                        customStyles={{backgroundColor: colors.bg}}
+                        onChangeText={handleTitleChange}
+                    />
                     <AppTextInput
                         multiline
                         numberOfLines={4}
                         placeholder="Seu texto"
-                        customStyles={{ backgroundColor: colors.bg, textAlignVertical:"top", maxHeight:150}} />
-                    <LinearGradient style={{ borderRadius: 8, height: 45, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}
-                        colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
-                        start={{ x: 1, y: 0 }}
-                        end={{ x: 0, y: 0 }}>
+                        customStyles={{backgroundColor: colors.bg, textAlignVertical: "top", maxHeight: 150}}
+                        onChangeText={handleCustomTextChange}
+                    />
+                    <LinearGradient style={{
+                        borderRadius: 8,
+                        height: 45,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: 10
+                    }}
+                                    colors={['#f872ff', '#d76aff', '#b561fa', '#9457e7', '#744fd4']}
+                                    start={{x: 1, y: 0}}
+                                    end={{x: 0, y: 0}}>
                         <Text
-                            style={{ fontWeight: 600, fontSize: 18, color: '#F5F5F5' }}
+                            style={{fontWeight: 600, fontSize: 18, color: '#F5F5F5'}}
+                            onPress={() => {
+                                handleCustomText();
+                                setVisible(false);
+                            }
+                            }
                         >
                             Enviar
                         </Text>

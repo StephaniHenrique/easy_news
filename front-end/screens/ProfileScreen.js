@@ -7,6 +7,7 @@ import {themeColors} from '../theme';
 import AppTextInput from "../components/AppTextInput";
 import {useNavigation} from '@react-navigation/native'
 import {UserContext} from "../contexts/UserContext";
+import text from "react-native-reanimated/src/reanimated2/component/Text";
 
 export default function ProfileScreen() {
     const {colors} = useTheme();
@@ -139,7 +140,6 @@ export default function ProfileScreen() {
     }
 
     const {token, email} = useContext(UserContext);
-    // console.log("Token: " + token)
     const [name, setName] = useState('');
 
     useEffect(() => {
@@ -166,6 +166,34 @@ export default function ProfileScreen() {
             });
     }, [token]);
 
+    const [ title, setTitle ] = useState('')
+    const [ text, setText ] = useState('')
+
+    useEffect(() => {
+        fetch('http://192.168.0.29:8080/text/user?userEmail=' + email, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    console.log(response.status)
+                    throw new Error('Network response was no OK')
+                }
+            })
+            .then(data => {
+                console.log(data)
+                setText(data[0].text)
+                setTitle(data[0].title)
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os textos customizados', error)
+            });
+    }, [text, title]);
 
     const ModalPoup = ({visible, children}) => {
         const [showModal, setShowModal] = React.useState(visible);
@@ -200,6 +228,13 @@ export default function ProfileScreen() {
                 </View>
             </Modal>
         );
+    };
+
+    const truncateText = (text, limit) => {
+        if (text.length <= limit) {
+            return text;
+        }
+        return `${text.substring(0, limit)}...`;
     };
 
     return (
@@ -321,81 +356,6 @@ export default function ProfileScreen() {
                 <Text style={[styles.recent]}>Seus resumos</Text>
                 <View
                     style={{
-                        marginTop: 10,
-                        marginHorizontal: 20,
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        borderBottomWidth: 1,
-                        borderBottomColor: colors.grey2,
-                        paddingVertical: 10,
-                    }}>
-                    <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 15}}>
-                        <View style={{
-                            backgroundColor: colors.purple_pink_03,
-                            padding: 10,
-                            borderRadius: 5,
-                            width: 50,
-                            height: 50,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>
-                            <Text style={{color: colors.purple, fontSize: 17, fontWeight: 600}}>24</Text>
-                            <Text style={{fontSize: 12, color: colors.purple}}>Set</Text>
-                        </View>
-                        <View>
-                            <View>
-                                <Text style={{fontSize: 16, fontWeight: 600, color: colors.text_main}}>Titulo</Text>
-                                <Text style={{fontSize: 14, color: colors.text_secondary, marginTop: 3}}>Começo do
-                                    texto...</Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    <Ionicons style={{color: colors.text_main}} name={'chevron-forward-outline'} size={25}
-                              onPress={() => navigation.navigate('FileDetail')}/>
-                </View>
-                <View
-                    style={{
-                        marginHorizontal: 20,
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        borderBottomWidth: 1,
-                        borderBottomColor: colors.grey2,
-                        paddingVertical: 10,
-                    }}>
-                    <View style={{display: "flex", flexDirection: "row", alignItems: "center", gap: 15}}>
-                        <View style={{
-                            backgroundColor: colors.purple_pink_03,
-                            padding: 10,
-                            borderRadius: 5,
-                            width: 50,
-                            height: 50,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center"
-                        }}>
-                            <Text style={{color: colors.purple, fontSize: 17, fontWeight: 600}}>14</Text>
-                            <Text style={{fontSize: 12, color: colors.purple}}>Abril</Text>
-                        </View>
-                        <View>
-                            <View>
-                                <Text style={{fontSize: 16, fontWeight: 600, color: colors.text_main}}>Titulo</Text>
-                                <Text style={{fontSize: 14, color: colors.text_secondary, marginTop: 3}}>Começo do
-                                    texto...</Text>
-                            </View>
-                        </View>
-                    </View>
-
-                    <Ionicons style={{color: colors.text_main}} name={'chevron-forward-outline'} size={25}
-                              onPress={() => navigation.navigate('FileDetail')}/>
-                </View>
-                <View
-                    style={{
                         marginHorizontal: 20,
                         display: "flex",
                         flexDirection: "row",
@@ -414,14 +374,13 @@ export default function ProfileScreen() {
                             alignItems: "center",
                             justifyContent: "center"
                         }}>
-                            <Text style={{color: colors.purple, fontSize: 17, fontWeight: 600}}>28</Text>
-                            <Text style={{fontSize: 12, color: colors.purple}}>Fev</Text>
+                            <Text style={{color: colors.purple, fontSize: 17, fontWeight: 600}}>10</Text>
+                            <Text style={{fontSize: 12, color: colors.purple}}>Dez</Text>
                         </View>
                         <View>
                             <View>
-                                <Text style={{fontSize: 16, fontWeight: 600, color: colors.text_main}}>Titulo</Text>
-                                <Text style={{fontSize: 14, color: colors.text_secondary, marginTop: 3}}>Começo do
-                                    texto...</Text>
+                                <Text style={{fontSize: 16, fontWeight: 600, color: colors.text_main}}>{title}</Text>
+                                <Text style={{fontSize: 14, color: colors.text_secondary, marginTop: 3}}>{text}</Text>
                             </View>
                         </View>
                     </View>
