@@ -50,7 +50,7 @@ export default function FindScreen() {
   }
 
 
-  const categories = ['Noticias', 'Artigos', 'Sei lá'];
+  const categories = ['Noticias', 'Artigos', 'Colunas'];
   const {colors} = useTheme();
   const bgColors = [colors.purple_03, colors.purple_pink_03, colors.pink_03];
   const colorsRainbow = [colors.purple, colors.purple_pink, colors.pink];
@@ -109,6 +109,19 @@ export default function FindScreen() {
     }
   }
 
+  const [articles, setArticles] = useState([]);
+  async function getNews() {
+    const response = await fetch(
+        'https://newsdata.io/api/1/news?apikey=pub_314863835828fecb905c17f3c4e3d8e9556b5&language=pt&full_content=1&image=1&category=politics,world,science'
+    );
+    const data = await response.json();
+    const results = data.results;
+    setArticles(results);
+  }
+  useEffect(() => {
+    getNews();
+  }, []);
+
   const CategoryList = () => {
     return (
       <View style={styles.categoryListContainer}>
@@ -132,19 +145,26 @@ export default function FindScreen() {
     );
   }
 
+
   const ListItem = ({ data }) => {
+    const truncateText = (text, limit) => {
+      if (text.length <= limit) {
+        return text;
+      }
+      return `${text.substring(0, limit)}...`;
+    };
     return (
       <TouchableOpacity>
         <View style={{ ...styles.card }}>
           <View style={{ ...styles.cardOverLay }} />
-
-          <Image source={require('../assets/images/noticias.jpg')} style={styles.cardImage} />
+          <Image source={{ uri: data.image_url }} style={styles.cardImage} />
           <View style={styles.cardDetails}>
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <View>
-                <Text style={{ fontWeight: 'bold', fontSize: 17, color: colors.text_main }}>
-                  {data.full_name}
+                <Text style={{ fontWeight: 'bold', fontSize: 15, color: colors.text_main }}>
+                  {/*{data.title}*/}
+                  {truncateText(data.title, 60)}
                 </Text>
                 <Text style={{ color: colors.grey, fontSize: 12 }}>
                   {data.full_name}
@@ -215,8 +235,16 @@ export default function FindScreen() {
           style={{ marginTop: 35, marginBottom: 260 }}
           contentContainerStyle={{ marginHorizontal: 20 }}
           data={data}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <ListItem data={item} />}
+          // keyExtractor={item => String(item.id)}
+          keyExtractor={(item, index) => `${item.id}_${index}`}
+          // renderItem={({ item }) => <ListItem data={articles[0]} />}
+          renderItem={({ item, index }) => {
+            // Ensure the index is within the articles array length
+            const articleIndex = index % articles.length;
+            const article = articles[articleIndex];
+
+            return <ListItem data={article} />;
+          }}
           onEndReached={loadApi}
           onEndReachedThreshold={0.1}
           ListFooterComponent={<FooterList load={loading} />}

@@ -92,7 +92,6 @@ const FavoriteScreen = ({ navigation }) => {
             flexDirection: 'column',
             justifyContent: 'space-around',
             alignContent: 'center',
-            height: '100%',
             marginHorizontal: 10
         },
     }
