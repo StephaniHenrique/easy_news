@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import {
     Dimensions,
     FlatList,
@@ -12,15 +12,15 @@ import {
 import axios from 'axios';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useTheme } from '../theme/ThemeProvider';
+import {useTheme} from '../theme/ThemeProvider';
 
 import hotels from '../assets/dados'
 
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const cardWidth = width - 40;
 
-const FavoriteScreen = ({ navigation }) => {
+const FavoriteScreen = ({navigation}) => {
     const baseURL = 'https://api.github.com';
     const perPage = 20;
 
@@ -44,7 +44,7 @@ const FavoriteScreen = ({ navigation }) => {
         setLoading(false);
     }
 
-    const { colors } = useTheme();
+    const {colors} = useTheme();
 
     const styles = {
         container: {
@@ -96,25 +96,30 @@ const FavoriteScreen = ({ navigation }) => {
         },
     }
 
-    const ListItem = ({ hotel, index }) => {
+    const ListItem = ({hotel, index}) => {
         return (
             <TouchableOpacity>
-                <View style={{ ...styles.card }}>
+                <View style={{...styles.card}}>
 
-                    <Image source={require('../assets/images/noticias.jpg')} style={styles.cardImage} />
+                    <Image source={require('../assets/images/noticias.jpg')} style={styles.cardImage}/>
                     <View style={styles.cardDetails}>
                         <View
-                            style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 195 }}>
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                width: 195
+                            }}>
                             <View>
-                                <Text style={{ fontWeight: 'bold', fontSize: 17, color: colors.text_main }}>
+                                <Text style={{fontWeight: 'bold', fontSize: 17, color: colors.text_main}}>
                                     {hotel.name}
                                 </Text>
-                                <Text style={{ color: colors.grey, fontSize: 12 }}>
+                                <Text style={{color: colors.grey, fontSize: 12}}>
                                     {hotel.location}
                                 </Text>
                             </View>
                             <View>
-                                <Icon name="favorite" size={22} color={colors.purple} />
+                                <Icon name="favorite" size={22} color={colors.purple}/>
                             </View>
                         </View>
                         <View
@@ -123,12 +128,12 @@ const FavoriteScreen = ({ navigation }) => {
                                 justifyContent: 'space-between',
                                 marginTop: 10,
                             }}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Icon name="star" size={15} color={colors.yellow} />
-                                <Icon name="star" size={15} color={colors.yellow} />
-                                <Icon name="star" size={15} color={colors.yellow} />
-                                <Icon name="star" size={15} color={colors.yellow} />
-                                <Icon name="star" size={15} color={colors.grey} />
+                            <View style={{flexDirection: 'row'}}>
+                                <Icon name="star" size={15} color={colors.yellow}/>
+                                <Icon name="star" size={15} color={colors.yellow}/>
+                                <Icon name="star" size={15} color={colors.yellow}/>
+                                <Icon name="star" size={15} color={colors.yellow}/>
+                                <Icon name="star" size={15} color={colors.grey}/>
                             </View>
                         </View>
                     </View>
@@ -140,25 +145,24 @@ const FavoriteScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20 }}>
+                <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 20}}>
                     <Icon
                         name="arrow-back-ios"
                         size={20}
                         color={colors.text_main}
                         onPress={navigation.goBack}
                     />
-                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: colors.text_main }}>Favoritos</Text>
+                    <Text style={{fontSize: 25, fontWeight: 'bold', color: colors.text_main}}>Favoritos</Text>
                 </View>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false}>
 
-                <FlatList
-                    contentContainerStyle={{ marginHorizontal: 20 }}
-                    data={hotels}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item, index }) => <ListItem hotel={item} index={index} />}
-                />
-            </ScrollView>
+            <FlatList
+                contentContainerStyle={{marginHorizontal: 20}}
+                data={hotels}
+                keyExtractor={item => String(item.id)}
+                renderItem={({item, index}) => <ListItem hotel={item} index={index}/>}
+                showsVerticalScrollIndicator={false}
+            />
         </SafeAreaView>
     )
 }
