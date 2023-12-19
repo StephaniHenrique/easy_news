@@ -36,14 +36,13 @@ export default function HomeScreen() {
     );
     const data = await response.json();
     const results = data.results;
-    setArticles(results); 
+    setArticles(results);
   }
 
 
  
   useEffect(() => {
     getNews();
-
   }, []);
   const categories = ['Popular', 'Recomendado'];
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
@@ -170,7 +169,11 @@ export default function HomeScreen() {
       <TouchableOpacity
         disabled={activeCardIndex != index}
         activeOpacity={1}
-        onPress={() => navigation.navigate('Detail', article)}>
+        onPress={() => {
+
+          navigation.navigate('Detail', article);
+        }
+      }>
         <Animated.View style={{ ...style.card, transform: [{ scale }] }}>
           <Animated.View style={{ ...style.cardOverLay, opacity }} />
 

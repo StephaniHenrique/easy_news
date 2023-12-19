@@ -134,13 +134,43 @@ const DetailScreen = ({navigation, route}) => {
         )
     }
 
+    const [newsId, setNewsId] = useState('')
+    const {token, email} = useContext(UserContext);
+
+    const saveNews = () => {
+        setNewsId(item.article_id)
+        fetch('http://192.168.0.29:8080/news/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({newsId})
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    console.log(response.status)
+                    throw new Error('Erro no armazenamento da notícia!');
+                }
+            })
+            .then(data => {
+                console.log('Notícia armazenada com sucesso!');
+                console.log(newsId)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    }
+
     const handleFavorite = () => {
-        const [newsId, setNewsId] = useState('')
-        const {token, email} = useContext(UserContext);
         fetch('http://192.168.0.29:8080/news/favorite', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({newsId, email})
         })
@@ -188,7 +218,11 @@ const DetailScreen = ({navigation, route}) => {
                     paddingTop: 20
                 }}>
                     <View style={style.iconContainer}>
-                        <Icon name="favorite-border" color={'#fff'} size={24} onPress={handleFavorite}/>
+                        <Icon name="favorite-border" color={'#fff'} size={24} onPress={ () => {
+                            saveNews();
+                            handleFavorite();
+                            }
+                        }/>
                     </View>
                     <View style={{marginTop: 20, paddingHorizontal: 20}}>
                         <Text style={{fontSize: 20, fontWeight: 'bold', color: colors.text_main}}>{item.title}</Text>
