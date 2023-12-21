@@ -4,10 +4,7 @@ import com.easynews.easynewsserver.model.TextRequest;
 import com.easynews.easynewsserver.model.TextResponse;
 import com.easynews.easynewsserver.service.TextService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,8 @@ public class TextController {
         return textService.saveText(textRequest);
     }
 
-    @PostMapping("/user")
-    public List<TextResponse> getAllUsersText(@RequestBody String userEmail) {
+    @GetMapping("/user")
+    public List<TextResponse> getAllUsersText(@RequestParam String userEmail) {
         return textService.getAllUsersText(userEmail);
     }
 

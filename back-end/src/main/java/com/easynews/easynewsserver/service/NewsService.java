@@ -44,7 +44,7 @@ public class NewsService {
     public News setFavorite(FavoriteRequest favoriteRequest) {
         News news = newsRepository.findById(favoriteRequest.newsId())
                 .orElseThrow(() -> new EntityNotFoundException("News not found"));
-        User user = userRepository.findById(favoriteRequest.userEmail())
+        User user = userRepository.findById(favoriteRequest.email())
                 .orElseThrow(() -> new EntityNotFoundException("User not found!!"));
 
         news.favoriteUser(user);

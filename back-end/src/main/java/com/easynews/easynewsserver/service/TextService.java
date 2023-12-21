@@ -35,15 +35,16 @@ public class TextService {
     }
 
     public TextResponse saveText(TextRequest textRequest) {
-        User user = userRepository.findById(textRequest.userEmail())
+        User user = userRepository.findById(textRequest.email())
                 .orElseThrow(() -> new EntityNotFoundException("User not found!!"));
 
         Text text = new Text();
         text.setTitle(textRequest.title());
-        text.setText(textRequest.text());
+        text.setText(textRequest.customText());
         text.setUser(user);
 
         text = textRepository.save(text);
+        System.out.println("texto salvo!");
 
         return convertToTextResponse(text);
     }

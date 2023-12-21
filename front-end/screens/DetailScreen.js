@@ -33,7 +33,6 @@ const DetailScreen = ({navigation, route}) => {
             console.error("Ocorreu um erro ao gerar a resposta:", error);
             throw error;
         }
-        ;
     }
     const clickLink = () => {
         Linking.openURL(item.link);
@@ -232,6 +231,7 @@ const DetailScreen = ({navigation, route}) => {
                                 fontWeight: '400',
                                 color: colors.grey,
                                 marginTop: 5,
+                                textAlign: 'justify'
                             }}>
 
                             {String(translatedText)}

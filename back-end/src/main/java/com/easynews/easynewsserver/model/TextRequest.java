@@ -1,8 +1,8 @@
 package com.easynews.easynewsserver.model;
 
 public record TextRequest(
-        String userEmail,
+        String email,
         String title,
-        String text
+        String customText
 ) {
 }
