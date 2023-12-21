@@ -1,5 +1,6 @@
 package com.easynews.easynewsserver.model.db;
 
+import com.easynews.easynewsserver.model.UserRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -57,6 +58,20 @@ public class User implements UserDetails {
     @JsonIgnore
     @ManyToMany(mappedBy = "users")
     private Set<News> news;
+
+    public User(UserRequest data) {
+        this.email = data.email();
+        this.password = data.password();
+        this.name = data.name();
+        this.role = data.role();
+        this.isPremium = data.isPremium();
+        this.age = data.age();
+        this.state = data.state();
+        this.allowSlang = data.allowSlang();
+        this.allowRegionalExpressions = data.allowRegionalExpressions();
+        this.academicDegree = data.academicDegree();
+        this.isPcd = data.isPcd();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

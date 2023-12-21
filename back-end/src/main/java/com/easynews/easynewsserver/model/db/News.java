@@ -25,6 +25,11 @@ public class News {
             inverseJoinColumns = @JoinColumn(name = "user_fk"))
     private Set<User> users;
 
+    // Construtor apenas com o ID
+    public News(String id) {
+        this.id = id;
+    }
+
     public void favoriteUser(User user) {
         users.add(user);
     }

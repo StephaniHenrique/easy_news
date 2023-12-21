@@ -50,6 +50,6 @@ public class TextService {
     }
 
     private TextResponse convertToTextResponse(Text text) {
-        return new TextResponse(text.getTextId(), text.getTitle(), text.getText());
+        return new TextResponse(text.getTextId().toString(), text.getTitle(), text.getText());
     }
 }
