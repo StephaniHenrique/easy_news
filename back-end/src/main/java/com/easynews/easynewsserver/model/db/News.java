@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +24,7 @@ public class News {
     @JoinTable(name = "favorite_news",
             joinColumns = @JoinColumn(name = "news_fk"),
             inverseJoinColumns = @JoinColumn(name = "user_fk"))
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     // Construtor apenas com o ID
     public News(String id) {

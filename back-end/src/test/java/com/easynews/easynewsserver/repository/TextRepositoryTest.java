@@ -33,7 +33,7 @@ class TextRepositoryTest {
     private TextController textController;
 
     @Test
-    @DisplayName("Devem ser encontrados todos os textos de um usuário")
+    @DisplayName("Deve devolver os textos de um usuário")
     void findAllByUserSuccess() {
         // create user
         User user = this.createUser(new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true"));

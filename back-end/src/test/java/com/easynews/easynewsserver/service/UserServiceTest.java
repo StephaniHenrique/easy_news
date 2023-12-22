@@ -40,7 +40,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna um usuário pelo seu email")
+    @DisplayName("Deve devolver um usuário pelo seu email")
     void loadUserByUsername_userExists() {
         User user = this.createUser(new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true"));
 
@@ -50,7 +50,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna um erro pois o usuário não existe")
+    @DisplayName("Deve devolver um erro pois o usuário não existe")
     void loadUserByUsername_userDoesNotExist() {
         assertThrows(EntityNotFoundException.class, () -> {
             this.userService.loadUserByUsername("email_nao_existente");
@@ -66,7 +66,7 @@ class UserServiceTest {
         assertThat(retrievedUser).isNotNull();
         assertThat(retrievedUser.get().getEmail()).isEqualTo(user.email());
         assertThat(retrievedUser.get().getName()).isEqualTo(user.name());
-        // password não é checado pois retorna criptografado
+        // password não é checado pois Deve devolver criptografado
         assertThat(retrievedUser.get().getRole()).isEqualTo(user.role());
         assertThat(retrievedUser.get().getIsPremium()).isEqualTo(user.isPremium());
         assertThat(retrievedUser.get().getAge()).isEqualTo(user.age());
@@ -78,7 +78,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna uma exceção pois o usuário já está registrado")
+    @DisplayName("Deve devolver uma exceção pois o usuário já está registrado")
     void registerUser_failedRegister() {
         UserRequest user = new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true");
         this.userService.registerUser(user);
@@ -88,7 +88,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna um usuário com sucesso pelo seu email")
+    @DisplayName("Deve devolver um usuário com sucesso pelo seu email")
     void getUser_successfulGet() {
         UserRequest user = new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true");
         this.userService.registerUser(user);
@@ -107,7 +107,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna uma exceção pois o usuário não existe")
+    @DisplayName("Deve devolver uma exceção pois o usuário não existe")
     void getUser_userNotFound() {
         assertThrows(EntityNotFoundException.class, () -> {
             this.userService.getUser("email_nao_existente");
@@ -140,7 +140,7 @@ class UserServiceTest {
         assertThat(retrievedUser.isPcd()).isEqualTo(user.isPcd());
     }
     @Test
-    @DisplayName("Retorna uma exceção pois o usuário não existe")
+    @DisplayName("Deve devolver uma exceção pois o usuário não existe")
     void updateUserData_userNotFound() {
         assertThrows(EntityNotFoundException.class, () -> {
             UpdateUserRequest updatedUser = new UpdateUserRequest("email_nao_existente", "password1", "name2", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true");
@@ -148,7 +148,7 @@ class UserServiceTest {
         });
     }
     @Test
-    @DisplayName("Retorna uma exceção pois o email é nulo")
+    @DisplayName("Deve devolver uma exceção pois o email é nulo")
     void updateUserData_nullEmail() {
         assertThrows(Exception.class, () -> {
             UpdateUserRequest updatedUser = new UpdateUserRequest(null, "password1", "name2", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true");
@@ -157,7 +157,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Retorna uma exceção pois o email é vazio")
+    @DisplayName("Deve devolver uma exceção pois o email é vazio")
     void updateUserData_emptyEmail() {
         assertThrows(EntityNotFoundException.class, () -> {
             UpdateUserRequest updatedUser = new UpdateUserRequest("", "password1", "name2", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true");

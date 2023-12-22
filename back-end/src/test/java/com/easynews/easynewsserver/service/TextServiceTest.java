@@ -59,7 +59,7 @@ class TextServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar uma exceção pois o usuário não existe")
+    @DisplayName("Deve devolver uma exceção pois o usuário não existe")
     void saveText_userNotFound() {
         assertThrows(EntityNotFoundException.class, () -> {
             TextRequest text1 = new TextRequest("email1", "title1", "text1");
@@ -83,7 +83,7 @@ class TextServiceTest {
         assertThat(foundTexts.get(2).customText()).isEqualTo("text3");
     }
     @Test
-    @DisplayName("Deve retornar uma exceção caso o usuário não exista")
+    @DisplayName("Deve devolver uma exceção caso o usuário não exista")
     void getAllUsersText_userNotFound() {
         assertThrows(EntityNotFoundException.class, () -> this.textService.getAllUsersText("email inexistente"));
     }
