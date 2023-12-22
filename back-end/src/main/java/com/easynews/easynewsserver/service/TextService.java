@@ -7,6 +7,7 @@ import com.easynews.easynewsserver.model.db.User;
 import com.easynews.easynewsserver.repository.TextRepository;
 import com.easynews.easynewsserver.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 public class TextService {
+    @Getter
     private final TextRepository textRepository;
     private final UserRepository userRepository;
 
@@ -52,4 +54,5 @@ public class TextService {
     private TextResponse convertToTextResponse(Text text) {
         return new TextResponse(text.getTextId().toString(), text.getTitle(), text.getText());
     }
+
 }
