@@ -3,14 +3,16 @@ package com.easynews.easynewsserver.model;
 import com.easynews.easynewsserver.model.db.UserRole;
 
 public record UserResponse(
-        String name,
         String email,
+        String password,
+        String name,
+        UserRole role,
+        String isPremium,
+        String age,
         String state,
         String allowSlang,
         String allowRegionalExpressions,
-        String isPcd,
-        String isPremium,
         String academicDegree,
-        String age
+        String isPcd
 ) {
 }

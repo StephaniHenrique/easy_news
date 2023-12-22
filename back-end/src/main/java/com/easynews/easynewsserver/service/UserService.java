@@ -9,6 +9,7 @@ import com.easynews.easynewsserver.model.db.User;
 import com.easynews.easynewsserver.model.db.UserRole;
 import com.easynews.easynewsserver.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,20 +28,23 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    @Getter
+    private final UserRepository userRepository;
     private AuthenticationManager authenticationManager;
 
     private TokenService tokenService;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findById(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
-    }
-
     UserService(@Autowired UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    // nesse caso, o username é o email
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findById(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
 
     public void registerUser(UserRequest userRegRequest) {
         User user = convertToUser(userRegRequest);
@@ -52,7 +56,6 @@ public class UserService implements UserDetailsService {
             System.out.println("Usuario registrado com sucesso");
         }
     }
-
 
     private User convertToUser(UserRequest userRegRequest) {
         User user = new User();
@@ -80,21 +83,26 @@ public class UserService implements UserDetailsService {
 
     private UserResponse userToUserResponse(User user) {
         return new UserResponse(
-                user.getName(),
                 user.getEmail(),
+                user.getPassword(),
+                user.getName(),
+                user.getRole(),
+                user.getIsPremium(),
+                user.getAge(),
                 user.getState(),
                 user.getAllowSlang(),
                 user.getAllowRegionalExpressions(),
-                user.getIsPcd(),
-                user.getIsPremium(),
                 user.getAcademicDegree(),
-                user.getAge()
+                user.getIsPcd()
         );
     }
 
     public User updateUserData(UpdateUserRequest updateUserRequest) {
         User user = userRepository.findById(updateUserRequest.email())
                 .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+        if (updateUserRequest.email().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email não pode ser nulo ou vazio");
+        }
         user.setName(updateUserRequest.name());
         user.setState(updateUserRequest.state());
         user.setIsPremium(updateUserRequest.isPremium());

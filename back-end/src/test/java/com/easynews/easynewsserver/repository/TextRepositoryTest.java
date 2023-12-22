@@ -33,22 +33,34 @@ class TextRepositoryTest {
     private TextController textController;
 
     @Test
-    @DisplayName("Should get successfully all texts of an user from DB")
+    @DisplayName("Devem ser encontrados todos os textos de um usuário")
     void findAllByUserSuccess() {
         // create user
         User user = this.createUser(new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true"));
 
         // set text to user
-        TextRequest text = new TextRequest(user.getEmail(), "title1", "text1");
-        this.textController.saveText(text);
+        TextRequest text1 = new TextRequest(user.getEmail(), "title1", "text1");
+        TextRequest text2 = new TextRequest(user.getEmail(), "title2", "text2");
+        TextRequest text3 = new TextRequest(user.getEmail(), "title3", "text3");
+        this.textController.saveText(text1);
+        this.textController.saveText(text2);
+        this.textController.saveText(text3);
 
         // assert test
         List<Text> foundTexts = this.textRepository.findAllByUser(user);
         assertThat(foundTexts).isNotEmpty();
-        assertThat(foundTexts).hasSize(1);
-        assertThat(foundTexts.get(0).getText()).isEqualTo(text.customText());
-        assertThat(foundTexts.get(0).getTitle()).isEqualTo(text.title());
-        assertThat(foundTexts.get(0).getUser().getEmail()).isEqualTo(text.email());
+        assertThat(foundTexts).hasSize(3);
+        assertThat(foundTexts.get(0).getText()).isEqualTo(text1.customText());
+        assertThat(foundTexts.get(0).getTitle()).isEqualTo(text1.title());
+        assertThat(foundTexts.get(0).getUser().getEmail()).isEqualTo(text1.email());
+
+        assertThat(foundTexts.get(0).getText()).isEqualTo(text2.customText());
+        assertThat(foundTexts.get(0).getTitle()).isEqualTo(text2.title());
+        assertThat(foundTexts.get(0).getUser().getEmail()).isEqualTo(text2.email());
+
+        assertThat(foundTexts.get(0).getText()).isEqualTo(text3.customText());
+        assertThat(foundTexts.get(0).getTitle()).isEqualTo(text3.title());
+        assertThat(foundTexts.get(0).getUser().getEmail()).isEqualTo(text3.email());
     }
 
     private User createUser(UserRequest data) {
