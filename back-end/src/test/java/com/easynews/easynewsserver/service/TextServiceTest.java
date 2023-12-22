@@ -37,7 +37,7 @@ class TextServiceTest {
 
     @Test
     @DisplayName("Deve salvar um texto no banco de dados com sucesso (teste de integração)")
-    void saveTextCase1() {
+    void saveText_successfulSave() {
         // cria usuário e três textos em seu nome
         User user = this.createUser(new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true"));
         TextRequest text1 = new TextRequest(user.getEmail(), "title1", "text1");
@@ -59,8 +59,17 @@ class TextServiceTest {
     }
 
     @Test
+    @DisplayName("Deve retornar uma exceção pois o usuário não existe")
+    void saveText_userNotFound() {
+        assertThrows(EntityNotFoundException.class, () -> {
+            TextRequest text1 = new TextRequest("email1", "title1", "text1");
+            this.textService.saveText(text1);
+        });
+    }
+
+    @Test
     @DisplayName("Devem ser retornados todos os textos de um usuário")
-    void getAllUsersTextCase1() {
+    void getAllUsersText_successfulGet() {
         User user = this.createUser(new UserRequest("email1", "password1", "name1", UserRole.USER, "true", "18", "SP", "true", "true", "Ensino Superior", "true"));
 
         this.textService.saveText(new TextRequest(user.getEmail(), "title1", "text1"));
@@ -75,7 +84,7 @@ class TextServiceTest {
     }
     @Test
     @DisplayName("Deve retornar uma exceção caso o usuário não exista")
-    void getAllUsersTextCase2() {
+    void getAllUsersText_userNotFound() {
         assertThrows(EntityNotFoundException.class, () -> this.textService.getAllUsersText("email inexistente"));
     }
 
